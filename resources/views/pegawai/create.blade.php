@@ -47,6 +47,7 @@
                         <div class="form-group">
                             <label for="golongan_id">Golongan</label>
                             <select name="golongan_id" id="golongan_id" class="form-control @error('golongan_id') is-invalid @enderror">
+                            <option value="">Pilih Golongan</option>
                                 @foreach($golongan as $item)
                                     <option value="{{ $item->id }}" {{ old('golongan_id') == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                 @endforeach

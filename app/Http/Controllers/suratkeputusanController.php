@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\suratkeputusan;
 use App\Models\Golongan;
+use App\Models\Pegawai;
+use App\Models\MataPelatihan;
 
 class suratkeputusanController extends Controller
 {
@@ -27,7 +29,9 @@ class suratkeputusanController extends Controller
     public function create()
     {
         $golongan = Golongan::all();
-        return view('suratkeputusan.create', compact('golongan'));
+        $pegawai = Pegawai::all();
+        $mataPelatihan = MataPelatihan::all();
+        return view('suratkeputusan.create', compact('golongan','pegawai','mataPelatihan'));
     }
 
     /**
@@ -40,7 +44,7 @@ class suratkeputusanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required|date_format:H:i',
+            'waktu' => 'required',
             'nama_pengajar' => 'required|string|max:255',
             'mapel' => 'required|string|max:255',
             'golongan_id' => 'required|exists:golongan,id',
@@ -76,7 +80,9 @@ class suratkeputusanController extends Controller
     {
         $suratkeputusan = suratkeputusan::findOrFail($id);
         $golongan = Golongan::all();
-        return view('suratkeputusan.edit', compact('suratkeputusan', 'golongan'));
+        $pegawai = Pegawai::all();
+        $mataPelatihan = MataPelatihan::all();
+        return view('suratkeputusan.edit', compact('suratkeputusan', 'golongan','pegawai','mataPelatihan'));
     }
 
     /**
@@ -90,7 +96,7 @@ class suratkeputusanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required|date_format:H:i',
+            'waktu' => 'required',
             'nama_pengajar' => 'required|string|max:255',
             'mapel' => 'required|string|max:255',
             'golongan_id' => 'required|exists:golongan,id',

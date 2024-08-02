@@ -37,7 +37,12 @@
 
                         <div class="form-group">
                             <label for="nama_pengajar">NAMA</label>
-                            <input type="text" name="nama_pengajar" class="form-control @error('nama_pengajar') is-invalid @enderror" id="nama_pengajar" placeholder="Nama Pengajar" value="{{ old('nama_pengajar', $suratkeputusan->nama_pengajar) }}">
+                            <select name="nama_pengajar" id="nama_pengajar" class="form-control @error('nama_pengajar') is-invalid @enderror">
+                                <option value="">Pilih Pengajar</option>
+                                @foreach($pegawai as $item)
+                                    <option value="{{ $item->nama_pengajar }}" {{ $suratkeputusan->nama_pengajar == $item->nama_pengajar ? 'selected' : '' }}>{{ $item->nama_pengajar }}</option>
+                                @endforeach
+                            </select>
                             @error('nama_pengajar')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -47,7 +52,12 @@
 
                         <div class="form-group">
                             <label for="mapel">URAIAN</label>
-                            <input type="text" name="mapel" class="form-control @error('mapel') is-invalid @enderror" id="mapel" placeholder="URAIAN" value="{{ old('mapel', $suratkeputusan->mapel) }}">
+                            <select name="mapel" id="mapel" class="form-control @error('mapel') is-invalid @enderror">
+                                <option value="">Pilih URAIAN</option>
+                                @foreach($mataPelatihan as $item)
+                                    <option value="{{ $item->mata_pelatihan }}" {{ $suratkeputusan->mapel == $item->mata_pelatihan ? 'selected' : '' }}>{{ $item->mata_pelatihan }}</option>
+                                @endforeach
+                            </select>
                             @error('mapel')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -58,6 +68,7 @@
                         <div class="form-group">
                             <label for="golongan_id">Golongan</label>
                             <select name="golongan_id" id="golongan_id" class="form-control @error('golongan_id') is-invalid @enderror">
+                                <option value="">Pilih Golongan</option>
                                 @foreach($golongan as $item)
                                     <option value="{{ $item->id }}" {{ old('golongan_id', $suratkeputusan->golongan_id) == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                 @endforeach
@@ -113,3 +124,21 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            function calculateJumlahBruto() {
+                let tarif_jp = $("#tarif_jp").val();
+                let jml_jp = $("#jml_jp").val();
+                // Pastikan jml_jp dan tarif_jp adalah angka, jika tidak, tetapkan sebagai 0
+                tarif_jp = tarif_jp ? parseInt(tarif_jp) : 0;
+                jml_jp = jml_jp ? parseInt(jml_jp) : 0;
+                let jml_bruto = jml_jp * tarif_jp;
+                $("#jumlah_bruto").val(jml_bruto);
+            }
+
+            $("#tarif_jp").on('change', calculateJumlahBruto);
+            $("#jml_jp").on('input', calculateJumlahBruto);
+        });
+    </script>
+@endpush

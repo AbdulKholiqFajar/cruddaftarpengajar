@@ -14,7 +14,7 @@
                 <form action="{{ route('suratkeputusan.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
-                    <div class="form-group">
+                        <div class="form-group">
                             <label for="tanggal">Tanggal</label>
                             <input type="date" name="tanggal" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" placeholder="Tanggal" value="{{ old('tanggal') }}">
                             @error('tanggal')
@@ -23,6 +23,7 @@
                                 </div>
                             @enderror
                         </div>
+                        
 
                         <div class="form-group">
                             <label for="waktu">Waktu</label>
@@ -36,7 +37,12 @@
 
                         <div class="form-group">
                             <label for="nama_pengajar">NAMA</label>
-                            <input type="text" name="nama_pengajar" class="form-control @error('nama_pengajar') is-invalid @enderror" id="nama_pengajar" placeholder="Nama Pengajar" value="{{ old('nama_pengajar') }}">
+                            <select name="nama_pengajar" id="nama_pengajar" class="form-control @error('nama_pengajar') is-invalid @enderror">
+                                <option value="">Pilih Pengajar</option>
+                                @foreach($pegawai as $item)
+                                    <option value="{{ $item->nama_pengajar }}" {{ old('nama_pengajar') == $item->id ? 'selected' : '' }}>{{ $item->nama_pengajar }}</option>
+                                @endforeach
+                            </select>
                             @error('nama_pengajar')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -46,7 +52,12 @@
 
                         <div class="form-group">
                             <label for="nama_pengajar">URAIAN</label>
-                            <input type="text" name="mapel" class="form-control @error('mapel') is-invalid @enderror" id="mapel" placeholder="URAIAN" value="{{ old('mapel') }}">
+                            <select name="mapel" id="mapel" class="form-control @error('mapel') is-invalid @enderror">
+                                <option value="">Pilih URAIAN</option>
+                                @foreach($mataPelatihan as $item)
+                                    <option value="{{ $item->mata_pelatihan }}" {{ old('mapel') == $item->id ? 'selected' : '' }}>{{ $item->mata_pelatihan }}</option>
+                                @endforeach
+                            </select>
                             @error('mapel')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -57,6 +68,7 @@
                         <div class="form-group">
                             <label for="golongan_id">Golongan</label>
                             <select name="golongan_id" id="golongan_id" class="form-control @error('golongan_id') is-invalid @enderror">
+                                <option value="">Pilih Golongan</option>
                                 @foreach($golongan as $item)
                                     <option value="{{ $item->id }}" {{ old('golongan_id') == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>
                                 @endforeach
@@ -112,3 +124,16 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            $("#tarif_jp").on('change', function(){
+                let tarif_jp = $(this).val();
+                let jml_jp = $("#jml_jp").val();
+                let jml_bruto = parseInt(jml_jp) * parseInt(tarif_jp);
+                $("#jumlah_bruto").val(jml_bruto);
+                
+            });
+        });
+    </script>
+@endpush

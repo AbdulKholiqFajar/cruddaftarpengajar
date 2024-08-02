@@ -29,4 +29,10 @@ class Pegawai extends Model
     {
         return $this->belongsTo(Golongan::class);
     }
+
+    public function suratKeputusan()
+    {
+        return $this->hasOne(SuratKeputusan::class, 'nama_pengajar', 'nama_pengajar');
+    }
+    
 }

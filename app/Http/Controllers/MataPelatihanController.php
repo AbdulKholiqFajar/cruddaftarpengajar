@@ -60,7 +60,7 @@ class MataPelatihanController extends Controller
     public function show($id)
     {
         $mata_pelatihan = MataPelatihan::findOrFail($id);
-        return view('mata_pelatihans.show', compact('mata_pelatihan'));
+        return view('MataPelatihan.show', compact('mata_pelatihan'));
     }
 
     /**
@@ -108,9 +108,9 @@ class MataPelatihanController extends Controller
      */
     public function destroy($id)
     {
-        $mata_pelatihan = MataPelatihan::findOrFail($id);
-        $mata_pelatihan->delete();
-
-        return redirect()->route('mata_pelatihans.index')->with('success', 'Data mata pelatihan berhasil dihapus.');
+        $mata_pelatihans = MataPelatihan::findOrFail($id);
+        $mata_pelatihans->delete();
+        
+        return response()->json(['success' => true]);
     }
 }

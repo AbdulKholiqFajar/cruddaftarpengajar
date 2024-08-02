@@ -71,6 +71,8 @@ class PegawaiController extends Controller
      */
     public function show($id)
     {
+        $pegawai = Pegawai::findOrFail($id);
+        return view('pegawai.show', compact('pegawai'));
         //
     }
 
@@ -123,11 +125,9 @@ class PegawaiController extends Controller
      */
     public function destroy($id)
     {
-        $pegawai = Pegawai::find($id);
+        $pegawai = Pegawai::findOrFail($id);
         $pegawai->delete();
-
-        session()->flash('success', 'Data Berhasil Dihapus.');
-
-        return redirect()->route('pegawai.index');
+        
+        return response()->json(['success' => true]);
     }
 }

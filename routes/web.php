@@ -22,9 +22,7 @@ use Illuminate\Support\Facades\Route;
 // })->middleware(['auth'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('layouts.admin');
-    });
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('pegawai', \App\Http\Controllers\PegawaiController::class);
     Route::resource('mata_pelatihans', \App\Http\Controllers\MataPelatihanController::class);
     Route::resource('suratkeputusan', \App\Http\Controllers\suratkeputusanController::class);

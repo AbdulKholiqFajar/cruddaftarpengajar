@@ -14,6 +14,18 @@
     <link rel="stylesheet" href="{{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <!-- DataTables Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Menghapus bayangan dari ikon panah */
+        .btn .fa {
+            text-shadow: none; /* Menghapus bayangan teks dari ikon */
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -62,69 +74,23 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="#" class="brand-link">
-{{--            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
             <span class="brand-text font-weight-light">BAPEKOM IV BANDUNG</span>
         </a>
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <!-- Sidebar user panel (optional) -->
-{{--            <div class="user-panel mt-3 pb-3 mb-3 d-flex">--}}
-{{--                <div class="image">--}}
-{{--                    <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">--}}
-{{--                </div>--}}
-{{--                <div class="info">--}}
-{{--                    <a href="#" class="d-block">Alexander Pierce</a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
-            <!-- SidebarSearch Form -->
-{{--            <div class="form-inline">--}}
-{{--                <div class="input-group" data-widget="sidebar-search">--}}
-{{--                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">--}}
-{{--                    <div class="input-group-append">--}}
-{{--                        <button class="btn btn-sidebar">--}}
-{{--                            <i class="fas fa-search fa-fw"></i>--}}
-{{--                        </button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-                         with font-awesome or any other icon font library -->
-{{--                    <li class="nav-item menu-open">--}}
-{{--                        <a href="#" class="nav-link active">--}}
-{{--                            <i class="nav-icon fas fa-tachometer-alt"></i>--}}
-{{--                            <p>--}}
-{{--                                Dashboard--}}
-{{--                                <i class="right fas fa-angle-left"></i>--}}
-{{--                            </p>--}}
-{{--                        </a>--}}
-{{--                        <ul class="nav nav-treeview">--}}
-{{--                            <li class="nav-item">--}}
-{{--                                <a href="./index.html" class="nav-link active">--}}
-{{--                                    <i class="far fa-circle nav-icon"></i>--}}
-{{--                                    <p>Dashboard v1</p>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li class="nav-item">--}}
-{{--                                <a href="./index2.html" class="nav-link">--}}
-{{--                                    <i class="far fa-circle nav-icon"></i>--}}
-{{--                                    <p>Dashboard v2</p>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li class="nav-item">--}}
-{{--                                <a href="./index3.html" class="nav-link">--}}
-{{--                                    <i class="far fa-circle nav-icon"></i>--}}
-{{--                                    <p>Dashboard v3</p>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </li>--}}
-
+                    <li class="nav-item">
+                        <a href="{{ route('dashboard') }}"
+                        class="nav-link {{ (request()->is('/*')) ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashborad
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route('pegawai.index') }}"
                         class="nav-link {{ (request()->is('pegawai*')) ? 'active' : '' }}">
@@ -134,32 +100,30 @@
                             </p>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="{{ route('mata_pelatihans.index') }}"
                            class="nav-link {{ (request()->is('mata_pelatihans*')) ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
+                            <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Mata Pelatihan
                             </p>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="{{ route('suratkeputusan.index') }}"
                            class="nav-link {{ (request()->is('suratkeputusan*')) ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
+                            <i class="nav-icon fas fa-file"></i>
                             <p>
                                 Surat Keputusan
                             </p>
                         </a>
                     </li>
+                </ul>
+            </nav>
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
     </aside>
-
-
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -185,33 +149,38 @@
         <section class="content">
             <div class="container-fluid">
                 @yield('content')
+                
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="text-center">
-        <strong>Copyright &copy; BAPEKOM IV BANDUNG </strong>
-        <div class="float-right d-none d-sm-inline-block">
-            <!-- <b>Version</b> 3.1.0 -->
-        </div>
-    </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-inline">
+            Anything you want
+        </div>
+        <strong>Copyright &copy; BAPEKOM IV BANDUNG</strong> All rights reserved.
+    </footer>
 </div>
 <!-- ./wrapper -->
 
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
+<!-- SweetAlert2 -->
+<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
+<!-- DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+
 @stack('scripts')
+
 </body>
 </html>
