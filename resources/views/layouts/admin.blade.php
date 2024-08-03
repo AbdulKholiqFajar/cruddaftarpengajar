@@ -180,6 +180,18 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $(".currency").on("keyup", function() {
+            value = $(this).val().replace(/,/g, '');
+            if (!$.isNumeric(value) || value == NaN) {
+                $(this).val('0').trigger('change');
+                value = 0;
+            }
+            $(this).val(parseFloat(value, 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+    });
+</script>
 @stack('scripts')
 
 </body>

@@ -15,9 +15,10 @@ class SuratKeputusan extends Model
     // Tentukan atribut yang bisa diisi secara massal
     protected $fillable = [
         'tanggal',
-        'waktu',
-        'nama_pengajar',
-        'mapel',
+        'start_time',
+        'end_time',
+        'pegawai_id',
+        'mata_pelatihan_id',
         'golongan_id',
         'jml_jp',
         'tarif_jp',
@@ -28,5 +29,13 @@ class SuratKeputusan extends Model
     public function golongan()
     {
         return $this->belongsTo(Golongan::class, 'golongan_id');
+    }
+    public function mata_pelatihan()
+    {
+        return $this->belongsTo(MataPelatihan::class, 'mata_pelatihan_id');
+    }
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
     }
 }

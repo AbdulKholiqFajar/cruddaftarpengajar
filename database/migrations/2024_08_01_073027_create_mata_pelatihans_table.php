@@ -15,6 +15,9 @@ class CreateMataPelatihansTable extends Migration
     {
         Schema::create('mata_pelatihans', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_mapel');
+            $table->string('mata_pelatihan');
+            $table->string('jml_jp');
             $table->timestamps();
         });
     }

@@ -22,19 +22,23 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tanggal">Tanggal:</label>
-                                <p id="tanggal">{{ $suratkeputusan->tanggal }}</p>
+                                <p id="tanggal">{{ \Carbon\Carbon::parse($suratkeputusan->tanggal)->translatedFormat('l, d F Y'), }}</p>
                             </div>
                             <div class="form-group">
-                                <label for="waktu">Waktu:</label>
-                                <p id="waktu">{{ $suratkeputusan->waktu }}</p>
+                                <label for="waktu">Waktu Awal:</label>
+                                <p id="waktu">{{ $suratkeputusan->start_time }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="waktu">Waktu Akhir:</label>
+                                <p id="waktu">{{ $suratkeputusan->end_time }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama Pengajar:</label>
-                                <p id="nama">{{ $suratkeputusan->nama_pengajar }}</p>
+                                <p id="nama">{{ $suratkeputusan->pegawai?->nama_pengajar }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="uraian">Uraian:</label>
-                                <p id="uraian">{{ $suratkeputusan->mapel }}</p>
+                                <p id="uraian">{{ $suratkeputusan->mata_pelatihan?->mata_pelatihan }}</p>
                             </div>
                         </div>
                         <div class="col-md-6">

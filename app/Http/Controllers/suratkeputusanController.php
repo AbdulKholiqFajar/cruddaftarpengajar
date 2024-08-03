@@ -17,7 +17,7 @@ class suratkeputusanController extends Controller
      */
     public function index()
     {
-        $suratkeputusan = suratkeputusan::with('golongan')->get();
+        $suratkeputusan = suratkeputusan::with(['golongan','mata_pelatihan','pegawai'])->get();
         return view('suratkeputusan.index', compact('suratkeputusan'));
     }
 
@@ -44,16 +44,28 @@ class suratkeputusanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required',
-            'nama_pengajar' => 'required|string|max:255',
-            'mapel' => 'required|string|max:255',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'nama_pengajar' => 'required',
+            'mapel' => 'required',
             'golongan_id' => 'required|exists:golongan,id',
-            'jml_jp' => 'required|numeric',
-            'tarif_jp' => 'required|numeric',
-            'jumlah_bruto' => 'required|numeric',
+            'jml_jp' => 'required',
+            'tarif_jp' => 'required',
+            'jumlah_bruto' => 'required',
         ]);
 
-        suratkeputusan::create($request->all());
+        $data = [
+            'tanggal' => $request->tanggal,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'pegawai_id' => $request->nama_pengajar,
+            'mata_pelatihan_id' => $request->mapel,
+            'golongan_id' => $request->golongan_id,
+            'jml_jp' => str_replace(',', '', $request->jml_jp),
+            'tarif_jp' =>  $request->tarif_jp,
+            'jumlah_bruto' =>  str_replace(',', '',$request->jumlah_bruto),
+        ];
+        suratkeputusan::create($data);
 
         return redirect()->route('suratkeputusan.index')->with('success', 'Data berhasil disimpan.');
     }
@@ -96,17 +108,28 @@ class suratkeputusanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'waktu' => 'required',
-            'nama_pengajar' => 'required|string|max:255',
-            'mapel' => 'required|string|max:255',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'nama_pengajar' => 'required',
+            'mapel' => 'required',
             'golongan_id' => 'required|exists:golongan,id',
-            'jml_jp' => 'required|numeric',
-            'tarif_jp' => 'required|numeric',
-            'jumlah_bruto' => 'required|numeric',
+            'jml_jp' => 'required',
+            'tarif_jp' => 'required',
+            'jumlah_bruto' => 'required',
         ]);
-
+        $data = [
+            'tanggal' => $request->tanggal,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'pegawai_id' => $request->nama_pengajar,
+            'mata_pelatihan_id' => $request->mapel,
+            'golongan_id' => $request->golongan_id,
+            'jml_jp' => str_replace(',', '', $request->jml_jp),
+            'tarif_jp' =>  $request->tarif_jp,
+            'jumlah_bruto' =>  str_replace(',', '',$request->jumlah_bruto),
+        ];
         $suratkeputusan = suratkeputusan::findOrFail($id);
-        $suratkeputusan->update($request->all());
+        $suratkeputusan->update($data);
 
         return redirect()->route('suratkeputusan.index')->with('success', 'Data berhasil diperbarui.');
     }

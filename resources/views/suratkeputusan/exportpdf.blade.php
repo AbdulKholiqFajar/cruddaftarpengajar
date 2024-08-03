@@ -32,6 +32,9 @@
                 <tbody>
                     @php
                         $no=0;
+                        $jml_jp=0;
+                        $tarif_jp=0;
+                        $jumlah_bruto=0;
 
                     @endphp
                     @foreach ($suratkeputusan as $item)
@@ -41,19 +44,28 @@
                     @endphp
                     <tr>
                         <td>{{ $no }}</th>
-                            <td>{{ $item->tanggal }}</td>
-                            <td>{{ $item->waktu }}</td>
-                            <td>{{ $item->nama_pengajar }}</td>
-                            <td>{{ $item->mapel }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y'), }}</td>
+                            <td>{{ $item->start_time.' - '.$item->end_time }}</td>
+                            <td>{{ $item->pegawai?->nama_pengajar }}</td>
+                            <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
                             <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
-                            <td>{{ $item->jml_jp }}</td>
-                            <td>{{ $item->tarif_jp }}</td>
-                            <td>{{ $item->jumlah_bruto }}</td>   
+                            <td>{{ number_format($item->jml_jp) }}</td>
+                            <td>{{ number_format($item->tarif_jp) }}</td>
+                            <td>{{ number_format($item->jumlah_bruto) }}</td>
+                            @php
+                                $jml_jp += intval($item->jml_jp);
+                                $tarif_jp += intval($item->tarif_jp);
+                                $jumlah_bruto += intval($item->jumlah_bruto);
+                            @endphp
                     </tr>
                     @endforeach
 
                 </tbody>
-
+                <tfoot>
+                  <td colspan="7" style="text-align: right">Total : {{ number_format($jml_jp) }}</td>
+                  <td style="">Total  {{ number_format($tarif_jp) }}</td>
+                  <td style="">Total : {{ number_format($jumlah_bruto) }}</td>
+                </tfoot>
             </table>
         </div>
     </div>
