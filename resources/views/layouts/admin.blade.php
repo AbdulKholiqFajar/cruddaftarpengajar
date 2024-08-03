@@ -110,15 +110,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('suratkeputusan.index') }}"
-                           class="nav-link {{ (request()->is('suratkeputusan*')) ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Surat Keputusan
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('sub_mata_pelatihans.index') }}"
                            class="nav-link {{ (request()->is('sub_mata_pelatihans*')) ? 'active' : '' }}">
                             <i class="nav-icon fas fa-book"></i>
@@ -127,6 +118,16 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('suratkeputusan.index') }}"
+                           class="nav-link {{ (request()->is('suratkeputusan*')) ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>
+                                Surat Keputusan
+                            </p>
+                        </a>
+                    </li>
+                    
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
