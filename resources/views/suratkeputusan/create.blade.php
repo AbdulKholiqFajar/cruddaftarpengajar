@@ -48,7 +48,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="nama_pengajar">NAMA</label>
                                     <select name="nama_pengajar" id="nama_pengajar" class="form-control @error('nama_pengajar') is-invalid @enderror">
@@ -64,7 +64,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="nama_pengajar">URAIAN</label>
                                     <select name="mapel" id="mapel" class="form-control @error('mapel') is-invalid @enderror">
@@ -80,7 +80,13 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
+                                <label for="sub_mata_pelatihan">Sub Mata Pelatihan</label>
+                                <select name="golongan_id" id="golongan_id" class="form-control @error('golongan_id') is-invalid @enderror">
+                                    <option value="">Pilih Sub Mata Pelatihan</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="golongan_id">Golongan</label>
                                     <select name="golongan_id" id="golongan_id" class="form-control @error('golongan_id') is-invalid @enderror">
@@ -96,7 +102,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="jml_jp">JUMLAH JP</label>
                                     <input type="text" id="jml_jp" name="jml_jp" class="form-control currency @error('jml_jp') is-invalid @enderror" placeholder="Jumlah JP" value="{{ old('jml_jp') }}" required>
@@ -107,7 +113,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="jp">TARIF JP</label>
                                     <select name="tarif_jp" id="tarif_jp" class="form-control @error('tarif_jp') is-invalid @enderror">
@@ -122,7 +128,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="pajak">JUMLAH BRUTO</label>
                                     <input type="text" name="jumlah_bruto" class="form-control @error('jumlah_bruto') is-invalid @enderror" id="jumlah_bruto" placeholder="JUMLAH BRUTO" value="{{ old('jumlah_bruto') }}">

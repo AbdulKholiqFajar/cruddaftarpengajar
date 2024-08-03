@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pegawai', \App\Http\Controllers\PegawaiController::class);
     Route::resource('mata_pelatihans', \App\Http\Controllers\MataPelatihanController::class);
     Route::resource('suratkeputusan', \App\Http\Controllers\suratkeputusanController::class);
+    Route::resource('sub_mata_pelatihans', \App\Http\Controllers\SubMataPelatihanController::class);
 
     Route::get('/export-excel-pegawai', \App\Http\Controllers\ExportExcelPegawaiController::class)->name('export.excel');
     Route::get('/export-pdf-pegawai', \App\Http\Controllers\ExportPdfPegawaiController::class)->name('export.pdf.pegawai');

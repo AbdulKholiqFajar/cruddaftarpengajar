@@ -87,7 +87,7 @@
                         class="nav-link {{ (request()->is('/*')) ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                Dashborad
+                                Dashboard
                             </p>
                         </a>
                     </li>
@@ -115,6 +115,15 @@
                             <i class="nav-icon fas fa-file"></i>
                             <p>
                                 Surat Keputusan
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('sub_mata_pelatihans.index') }}"
+                           class="nav-link {{ (request()->is('sub_mata_pelatihans*')) ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Sub Mata Pelatihan
                             </p>
                         </a>
                     </li>
