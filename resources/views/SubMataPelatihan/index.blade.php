@@ -75,7 +75,7 @@
         $(document).ready(function () {
             $('#submataPelatihanTable').DataTable({
                 "paging": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
@@ -87,7 +87,7 @@
                 }
             });
 
-            $('.delete').click(function(e) {
+            $('.delete').click(function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 Swal.fire({
@@ -103,23 +103,27 @@
                     if (result.value) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '/mata_pelatihans/'+ id,
+                            url: '/sub_mata_pelatihans/' + id,
                             data: {
-                                'id': id,
                                 '_token': "{{ csrf_token() }}"
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 Swal.fire(
                                     'Dihapus!',
                                     'Data berhasil dihapus.',
                                     'success'
-                                )
-                                $('#mataPelatihanTable').DataTable().ajax.reload();
+                                ).then(() => {
+                                    // Redirect to index page
+                                    window.location.href = '{{ route('sub_mata_pelatihans.index') }}';
+                                });
                             },
+                            error: function (xhr) {
+                                console.error(xhr.responseText);
+                            }
                         });
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 @endpush

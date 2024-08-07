@@ -16,7 +16,7 @@ class Pegawai extends Model
         'nama_pengajar',
         'jabatan',
         'golongan_id',
-        'jp',
+        'honor',
         'pajak',
         'alamat',
     ];

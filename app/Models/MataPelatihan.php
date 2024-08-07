@@ -15,7 +15,6 @@ class MataPelatihan extends Model
         'kode_mapel', 
         'mata_pelatihan',
         'jml_jp',
-        // 'name',
     ];
 
 }

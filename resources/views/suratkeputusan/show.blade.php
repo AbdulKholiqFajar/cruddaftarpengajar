@@ -22,7 +22,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tanggal">Tanggal:</label>
-                                <p id="tanggal">{{ \Carbon\Carbon::parse($suratkeputusan->tanggal)->translatedFormat('l, d F Y'), }}</p>
+                                <p id="tanggal">{{ \Carbon\Carbon::parse($suratkeputusan->tanggal)->translatedFormat('l, d F Y') }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="waktu">Waktu Awal:</label>

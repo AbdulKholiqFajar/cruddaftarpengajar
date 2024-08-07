@@ -32,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-pdf-pegawai', \App\Http\Controllers\ExportPdfPegawaiController::class)->name('export.pdf.pegawai');
     Route::get('/export-pdf-mata_pelatihans', \App\Http\Controllers\ExportPdfMataPelatihanController::class)->name('export.pdf.mata_pelatihans');
     Route::get('/export-pdf-suratkeputusan', \App\Http\Controllers\ExportPdfsuratkeputusanController::class)->name('export.pdf');
+    Route::get('/export-excel-surat-keputusan', \App\Http\Controllers\ExportExcelSuratKeputusanController::class)->name('export.excel');
+
 });
 // Route::resource('pegawai', \App\Http\Controllers\PegawaiController::class);
 

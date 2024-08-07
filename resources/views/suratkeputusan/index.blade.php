@@ -8,6 +8,30 @@
     @if(session('success'))
         <div class="alert alert-success d-block">{{ session('success') }}</div>
     @endif
+
+    <!-- Filter Form -->
+    <form action="{{ route('suratkeputusan.index') }}" method="GET" class="mb-3">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label for="start_date">Tanggal Awal</label>
+                    <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label for="end_date">Tanggal Akhir</label>
+                    <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mt-4">Filter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -15,21 +39,9 @@
                 <div class="card-header">
                     <h3 class="card-title">
                         <a href="{{ route('suratkeputusan.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
-                        <a href="{{ route('export.pdf') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
-                        <a href="{{ route('export.excel') }}" class="btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a>
+                        <a href="{{ route('export.pdf', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
+                        <a href="{{ route('export.excel', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}" class="btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a>
                     </h3>
-
-                    <!-- <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                     <table id="suratkeputusanTable" class="table table-bordered table-hover">
@@ -39,28 +51,32 @@
                                 <th>Waktu</th>
                                 <th>Nama</th>
                                 <th>Uraian</th>
+                                <!-- <th>Sub Mapel</th> -->
                                 <th>Gol</th>
-                                <th>Jumlah JP</th>
-                                <th>Tarif JP</th>
-                                <th>Jumlah Bruto</th>
+                                <th>JP</th>
+                                <!-- <th>Tarif JP</th> -->
+                                <!-- <th>Jumlah Bruto</th> -->
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($suratkeputusan as $item)
                                 <tr>
-                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y'), }}</td>
-                                    <td>{{ $item->start_time.' - '.$item->end_time }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
                                     <td>{{ $item->pegawai?->nama_pengajar }}</td>
                                     <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
+                                    <!-- <td>{{ $item->sub_mata_pelatihan ? $item->sub_mata_pelatihan->sub_mata_pelatihan : 'Data Tidak Tersedia' }}</td> -->
                                     <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
                                     <td>{{ number_format($item->jml_jp) }}</td>
-                                    <td>{{ number_format($item->tarif_jp) }}</td>
-                                    <td>{{ number_format($item->jumlah_bruto) }}</td>
+                                    <!-- <td>{{ number_format($item->tarif_jp) }}</td> -->
+                                    <!-- <td>{{ number_format($item->jumlah_bruto) }}</td> -->
                                     <td>
                                         <a href="{{ route('suratkeputusan.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                         <a href="{{ route('suratkeputusan.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a href="#" data-id="{{ $item->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash"></i></a>
+                                        <button type="button" class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                     </td>
                                 </tr>
                             @empty
@@ -83,7 +99,7 @@
         $(document).ready(function () {
             $('#suratkeputusanTable').DataTable({
                 "paging": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
@@ -91,7 +107,8 @@
                 "responsive": true,
                 "pagingType": "simple_numbers",
                 "language": {
-                    "search": "Search:"
+                    "search": "Cari:",
+                    "lengthMenu": "Show _MENU_ entri"
                 }
             });
 
@@ -111,9 +128,8 @@
                     if (result.value) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '/suratkeputusan/'+ id,
+                            url: '/suratkeputusan/' + id,
                             data: {
-                                'id': id,
                                 '_token': "{{ csrf_token() }}"
                             },
                             success: function(response) {
@@ -121,13 +137,18 @@
                                     'Dihapus!',
                                     'Data berhasil dihapus.',
                                     'success'
-                                )
-                                $('#suratkeputusanTable').DataTable().ajax.reload();
+                                ).then(() => {
+                                    // Redirect to index page
+                                    window.location.href = '{{ route('suratkeputusan.index') }}';
+                                });
                             },
+                            error: function (xhr) {
+                                console.error(xhr.responseText);
+                            }
                         });
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 @endpush

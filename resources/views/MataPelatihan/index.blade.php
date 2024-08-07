@@ -11,54 +11,46 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <!-- Card Header -->
-                <div class="card-header">
-                    <h3 class="card-title">
-                        <a href="{{ route('mata_pelatihans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
-                        <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
-                    </h3>
-
-                    <!-- <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-container">
+                            <a href="{{ route('mata_pelatihans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
+                            <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
                         </div>
                     </div>
-                </div> -->
-                <!-- /.card-header -->
-                <div class="card-body table-responsive p-0">
-                    <table id="mataPelatihanTable" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Kode Mata Pelatihan</th>
-                                <th>Mata Pelatihan</th>
-                                <th>Jumlah JP</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($mata_pelatihans as $item)
+                    <div class="table-responsive">
+                        <table id="mataPelatihanTable" class="table table-bordered table-hover">
+                            <thead>
                                 <tr>
-                                    <td>{{ $item->kode_mapel }}</td>
-                                    <td>{{ $item->mata_pelatihan }}</td>
-                                    <td>{{ $item->jml_jp }}</td>
-                                    <td>
-                                        <a href="{{ route('mata_pelatihans.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('mata_pelatihans.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                        <a href="#" data-id="{{ $item->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash"></i></a>
-                                    </td>
+                                    <th>Kode Mata Pelatihan</th>
+                                    <th>Mata Pelatihan</th>
+                                    <th>Jumlah JP</th>
+                                    <th>Aksi</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center">Belum Ada Data</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse($mata_pelatihans as $item)
+                                    <tr>
+                                        <td>{{ $item->kode_mapel }}</td>
+                                        <td>{{ $item->mata_pelatihan }}</td>
+                                        <td>{{ $item->jml_jp }}</td>
+                                        <td>
+                                            <a href="{{ route('mata_pelatihans.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                            <a href="{{ route('mata_pelatihans.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                            <button type="button" class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">Belum Ada Data</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -72,7 +64,7 @@
         $(document).ready(function () {
             $('#mataPelatihanTable').DataTable({
                 "paging": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
@@ -84,7 +76,7 @@
                 }
             });
 
-            $('.delete').click(function(e) {
+            $('.delete').click(function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 Swal.fire({
@@ -100,23 +92,27 @@
                     if (result.value) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '/mata_pelatihans/'+ id,
+                            url: '/mata_pelatihans/' + id,
                             data: {
-                                'id': id,
                                 '_token': "{{ csrf_token() }}"
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 Swal.fire(
                                     'Dihapus!',
                                     'Data berhasil dihapus.',
                                     'success'
-                                )
-                                $('#mataPelatihanTable').DataTable().ajax.reload();
+                                ).then(() => {
+                                    // Redirect to index page
+                                    window.location.href = '{{ route('mata_pelatihans.index') }}';
+                                });
                             },
+                            error: function (xhr) {
+                                console.error(xhr.responseText);
+                            }
                         });
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 @endpush

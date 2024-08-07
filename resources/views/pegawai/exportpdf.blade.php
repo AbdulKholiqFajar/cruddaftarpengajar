@@ -23,7 +23,7 @@
                         <th>Nama Pengajar</th>
                         <th>Jabatan</th>
                         <th>Golongan</th> 
-                        <th>Tarif JP</th>
+                        <th>Honor</th>
                         <th>Pajak</th>
                         <th>Alamat</th>
                     </tr>
@@ -44,7 +44,7 @@
                             <td>{{ $item->nama_pengajar }}</td>
                             <td>{{ $item->jabatan }}</td>
                             <td>{{ $item->golongan->nama }}</td>
-                            <td>{{ $item->jp }}</td>
+                            <td>{{ $item->honor }}</td>
                             <td>{{ $item->pajak }}</td>
                             <td>{{ $item->alamat }}</td>    
                     </tr>

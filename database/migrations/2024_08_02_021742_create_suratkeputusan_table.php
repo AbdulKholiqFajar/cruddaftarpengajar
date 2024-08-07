@@ -25,6 +25,7 @@ class CreateSuratkeputusanTable extends Migration
             $table->decimal('tarif_jp', 10, 2); // Kolom tarif_jp
             $table->decimal('jumlah_bruto', 15, 2); // Kolom jumlah_bruto
             $table->timestamps(); // Kolom created_at dan updated_at
+            $table->foreignId('sub_mata_pelatihan_id')->constrained('sub_mata_pelatihans')->onDelete('cascade');
         });
     }
 

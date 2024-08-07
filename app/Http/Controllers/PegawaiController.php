@@ -51,7 +51,7 @@ class PegawaiController extends Controller
             'nama_pengajar' => ['required', 'string', 'max:255'],
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
-            'jp' => ['required', 'integer', 'in:300000,1000000'],
+            'honor' => ['required', 'string'],
             'pajak' => ['required', 'string'],
             'alamat' => ['required', 'string', 'max:255'],
         ]);
@@ -84,10 +84,9 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        return view('pegawai.edit', [
-            'golongan' => Golongan::all(),
-            'pegawai' => Pegawai::find($id)
-        ]);
+        $pegawai = Pegawai::findOrFail($id);
+        $golongan = Golongan::all(); // Pastikan untuk mengirimkan data golongan juga
+        return view('pegawai.edit', compact('pegawai', 'golongan'));
     }
 
     /**
@@ -99,17 +98,21 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $pegawai = Pegawai::findOrFail($id);
         $validatedData = $request->validate([
-            'nip' => ['required', 'numeric', 'unique:pegawai,nip'],
+            'nip' => [
+                'required',
+                Rule::unique('pegawai')->ignore($pegawai->id)
+            ],
             'nama_pengajar' => ['required', 'string', 'max:255'],
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
-            'jp' => ['required', 'integer', 'in:300000,1000000'],
+            'honor' => ['required', 'string'],
             'pajak' => ['required', 'string'],
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 
-        $pegawai = Pegawai::find($id);
+        $pegawai = Pegawai::findOrFail($id);
         $pegawai->update($validatedData);
 
         session()->flash('success', 'Data Berhasil Diperbarui.');
@@ -123,6 +126,7 @@ class PegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function destroy($id)
     {
         $pegawai = Pegawai::findOrFail($id);

@@ -33,14 +33,15 @@
                                 <p id="golongan">{{ $pegawai->golongan ? $pegawai->golongan->nama : 'N/A' }}</p>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="tarif_jp">Tarif JP:</label>
-                                <p id="tarif_jp">{{ $pegawai->jp }}</p>
+                                <label for="honor">Honor:</label>
+                                <p id="honor">{{ number_format($pegawai->honor) }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="pajak">Pajak:</label>
-                                <p id="pajak">{{ $pegawai->pajak }}</p>
+                                <p id="pajak">{{ number_format($pegawai->pajak) }}</p>
                             </div>
                             <div class="form-group">
                                 <label for="alamat">Alamat:</label>

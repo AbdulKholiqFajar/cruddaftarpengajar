@@ -109,15 +109,15 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="{{ route('sub_mata_pelatihans.index') }}"
-                           class="nav-link {{ (request()->is('sub_mata_pelatihans*')) ? 'active' : '' }}">
+                           class="nav-link {{ (request()->is('sub_mata_pelatihan*')) ? 'active' : '' }}">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Sub Mata Pelatihan
                             </p>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="{{ route('suratkeputusan.index') }}"
                            class="nav-link {{ (request()->is('suratkeputusan*')) ? 'active' : '' }}">
@@ -169,9 +169,9 @@
     <!-- Main Footer -->
     <footer class="main-footer">
         <div class="float-right d-none d-sm-inline">
-            Anything you want
+    
         </div>
-        <strong>Copyright &copy; BAPEKOM IV BANDUNG</strong> All rights reserved.
+        <strong>Copyright &copy; BAPEKOM IV BANDUNG</strong> 
     </footer>
 </div>
 <!-- ./wrapper -->
@@ -188,7 +188,6 @@
 <!-- DataTables JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
     $(document).ready(function () {

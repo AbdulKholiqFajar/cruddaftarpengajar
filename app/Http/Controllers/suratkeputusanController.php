@@ -15,9 +15,18 @@ class suratkeputusanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $suratkeputusan = suratkeputusan::with(['golongan','mata_pelatihan','pegawai'])->get();
+        $query = suratkeputusan::with(['golongan','mata_pelatihan','pegawai']);
+        
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+            
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+        }
+        
+        $suratkeputusan = $query->get();
         return view('suratkeputusan.index', compact('suratkeputusan'));
     }
 
@@ -50,7 +59,7 @@ class suratkeputusanController extends Controller
             'mapel' => 'required',
             'golongan_id' => 'required|exists:golongan,id',
             'jml_jp' => 'required',
-            'tarif_jp' => 'required',
+            'tarif_jp' => 'required|numeric',
             'jumlah_bruto' => 'required',
         ]);
 
@@ -62,8 +71,8 @@ class suratkeputusanController extends Controller
             'mata_pelatihan_id' => $request->mapel,
             'golongan_id' => $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
-            'tarif_jp' =>  $request->tarif_jp,
-            'jumlah_bruto' =>  str_replace(',', '',$request->jumlah_bruto),
+            'tarif_jp' => str_replace(',', '', $request->tarif_jp),
+            'jumlah_bruto' => str_replace(',', '', $request->jumlah_bruto),
         ];
         suratkeputusan::create($data);
 
@@ -114,9 +123,10 @@ class suratkeputusanController extends Controller
             'mapel' => 'required',
             'golongan_id' => 'required|exists:golongan,id',
             'jml_jp' => 'required',
-            'tarif_jp' => 'required',
+            'tarif_jp' => 'required|numeric',
             'jumlah_bruto' => 'required',
         ]);
+
         $data = [
             'tanggal' => $request->tanggal,
             'start_time' => $request->start_time,
@@ -125,8 +135,8 @@ class suratkeputusanController extends Controller
             'mata_pelatihan_id' => $request->mapel,
             'golongan_id' => $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
-            'tarif_jp' =>  $request->tarif_jp,
-            'jumlah_bruto' =>  str_replace(',', '',$request->jumlah_bruto),
+            'tarif_jp' => str_replace(',', '', $request->tarif_jp),
+            'jumlah_bruto' => str_replace(',', '', $request->jumlah_bruto),
         ];
         $suratkeputusan = suratkeputusan::findOrFail($id);
         $suratkeputusan->update($data);

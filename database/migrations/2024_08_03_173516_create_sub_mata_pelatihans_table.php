@@ -15,9 +15,9 @@ class CreateSubMataPelatihansTable extends Migration
     {
         Schema::create('sub_mata_pelatihans', function (Blueprint $table) {
             $table->id();
+            $table->string('code_sub_mata_pelatihan');
             $table->foreignId('mata_pelatihan_id')->constrained('mata_pelatihans')->onDelete('cascade');
             $table->string('sub_mata_pelatihan');
-            $table->string('code_sub_mata_pelatihan');
             $table->timestamps();
         });
     }

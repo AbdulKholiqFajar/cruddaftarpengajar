@@ -80,12 +80,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <label for="sub_mata_pelatihan">Sub Mata Pelatihan</label>
-                                <select name="golongan_id" id="golongan_id" class="form-control @error('golongan_id') is-invalid @enderror">
-                                    <option value="">Pilih Sub Mata Pelatihan</option>
-                                </select>
-                            </div>
+
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="golongan_id">Golongan</label>
@@ -113,14 +108,11 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="jp">TARIF JP</label>
-                                    <select name="tarif_jp" id="tarif_jp" class="form-control @error('tarif_jp') is-invalid @enderror">
-                                        <option value="">Pilih Salah Satu</option>
-                                        <option value="300000" {{ old('jp') == '300000' ? 'selected' : '' }}>{{ number_format(300000) }}</option>
-                                        <option value="1000000" {{ old('jp') == '1000000' ? 'selected' : '' }}>{{ number_format(1000000) }}</option>
-                                    </select>
+                                    <label for="tarif_jp">TARIF JP</label>
+                                    <input type="text" name="tarif_jp" id="tarif_jp" class="form-control @error('tarif_jp') is-invalid @enderror" placeholder="Masukkan Tarif JP" value="{{ old('tarif_jp') }}">
                                     @error('tarif_jp')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -128,6 +120,7 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="pajak">JUMLAH BRUTO</label>

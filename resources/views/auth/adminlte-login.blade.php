@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SIP | Log in</title>
+    <title>BAPEKOM | Log in</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -25,7 +25,7 @@
         }
         .login-logo {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
         .login-logo img {
             max-width: 100%;
@@ -60,7 +60,7 @@
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Masuk untuk Kelola Data</p>
+            <!-- <p class="login-box-msg">Masuk untuk Kelola Data</p> -->
             @error('email')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror

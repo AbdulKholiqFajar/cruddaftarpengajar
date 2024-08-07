@@ -13,15 +13,20 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form method="POST" action="{{ route('sub_mata_pelatihans.store') }}">
+                        <form action="{{ route('sub_mata_pelatihans.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="code_sub_mata_pelatihan">Kode Sub Mata Pelatihan</label>
-                            <input type="text" id="code_sub_mata_pelatihan" name="code_sub_mata_pelatihan" class="form-control @error('code_sub_mata_pelatihan') is-invalid @enderror" value="{{ old('code_sub_mata_pelatihan') }}" required>
-                            @error('code_sub_mata_pelatihan')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <select name="code_sub_mata_pelatihan" id="code_sub_mata_pelatihan" class="form-control @error('code_sub_mata_pelatihan') is-invalid @enderror">
+                            <option value="">Pilih Kode Mata Pelatihan</option>
+                            @foreach($mataPelatihan as $item)
+                                <option value="{{ $item->id }}" {{ old('kode_mapel') == $item->id ? 'selected' : '' }}>{{ $item->kode_mapel }}</option>
+                            @endforeach 
+                            </select>
+                            @error('kode_mapel')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
                      
@@ -49,6 +54,7 @@
                               </span>
                           @enderror
                       </div>
+                      
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Simpan</button>
                             <a href="{{ route('mata_pelatihans.index') }}" class="btn btn-secondary">Batal</a>
