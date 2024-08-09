@@ -157,4 +157,20 @@ class suratkeputusanController extends Controller
 
         return response()->json(['success' => 'Data berhasil dihapus.']);
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $status = $request->input('status');
+        $statusCode = $status == 'approved' ? 2 : ($status == 'rejected' ? 3 : 0);
+
+        $updated = SuratKeputusan::where('id', $id)->update([
+            'approve' => $statusCode
+        ]);
+
+        if ($updated) {
+            return response()->json(['success' => true, 'message' => 'Status data telah diubah.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Gagal mengubah status data.']);
+        }
+    }
 }

@@ -66,9 +66,9 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="nama_pengajar">URAIAN</label>
+                                    <label for="nama_pengajar">MATA PELATIHAN</label>
                                     <select name="mapel" id="mapel" class="form-control @error('mapel') is-invalid @enderror">
-                                        <option value="">Pilih URAIAN</option>
+                                        <option value="">Pilih MATA PELATIHAN</option>
                                         @foreach($mataPelatihan as $item)
                                             <option value="{{ $item->id }}" {{ old('mapel') == $item->id ? 'selected' : '' }}>{{ $item->mata_pelatihan }}</option>
                                         @endforeach
@@ -149,7 +149,7 @@
     <script>
         $(document).ready(function () {
             function calculateJumlahBruto() {
-                let tarif_jp = $("#tarif_jp").val();
+                let tarif_jp = $("#tarif_jp").val().replace(/,/g, '');
                 let jml_jp = $("#jml_jp").val();
                 // Pastikan jml_jp dan tarif_jp adalah angka, jika tidak, tetapkan sebagai 0
                 tarif_jp = tarif_jp ? parseInt(tarif_jp) : 0;

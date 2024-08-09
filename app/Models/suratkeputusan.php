@@ -23,7 +23,8 @@
             'jml_jp',
             'tarif_jp',
             'jumlah_bruto',
-            'sub_mata_pelatihan_id',
+            'approve',
+            // 'sub_mata_pelatihan_id',
         ];
 
         // Tentukan relasi dengan model Golongan

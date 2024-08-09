@@ -114,7 +114,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="tarif_jp">TARIF JP</label>
-                                    <input type="text" name="tarif_jp" id="tarif_jp" class="form-control @error('tarif_jp') is-invalid @enderror" placeholder="Masukkan Tarif JP" value="{{ old('tarif_jp', number_format($suratkeputusan->tarif_jp)) }}">
+                                    <input type="text" name="tarif_jp" id="tarif_jp" class="form-control @error('tarif_jp') is-invalid @enderror" placeholder="Masukkan Tarif JP" value="{{ old('tarif_jp', $suratkeputusan->tarif_jp) }}" step="1">
                                     @error('tarif_jp')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -151,21 +151,35 @@
     <script>
         $(document).ready(function () {
             function calculateJumlahBruto() {
-                let tarif_jp = $("#tarif_jp").val();
+                let tarif_jp = $("#tarif_jp").val().replace(/,/g, '');
                 let jml_jp = $("#jml_jp").val();
-                // Pastikan jml_jp dan tarif_jp adalah angka, jika tidak, tetapkan sebagai 0
                 tarif_jp = tarif_jp ? parseInt(tarif_jp) : 0;
                 jml_jp = jml_jp ? parseInt(jml_jp) : 0;
                 if(jml_jp == ''){
-                    alert('Jumlah JP Wajib Diisi')
-                }else{
-                    let jml_bruto = parseInt(jml_jp) * parseInt(tarif_jp);
-                    $("#jumlah_bruto").val(parseInt(jml_bruto, 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    alert('Jumlah JP Wajib Diisi');
+                } else {
+                    let jml_bruto = tarif_jp * jml_jp;
+                    $("#jumlah_bruto").val(jml_bruto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                 }
             }
 
-            $("#tarif_jp").on('change', calculateJumlahBruto);
+            function formatInputValue() {
+                let tarif_jp = $("#tarif_jp").val().replace(/,/g, '');
+                if (tarif_jp) {
+                    // Ensure tarif_jp is an integer and format it
+                    let formattedValue = Math.floor(parseInt(tarif_jp)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $("#tarif_jp").val(formattedValue);
+                }
+            }
+
+            $("#tarif_jp").on('input', function() {
+                formatInputValue();
+                calculateJumlahBruto();
+            });
             $("#jml_jp").on('input', calculateJumlahBruto);
+
+            // Format nilai saat halaman dimuat
+            formatInputValue();
         });
     </script>
 @endpush

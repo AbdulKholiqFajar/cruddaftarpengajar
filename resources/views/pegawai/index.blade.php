@@ -28,7 +28,7 @@
                                     <th>Nama Pengajar</th>
                                     <th>Jabatan</th>
                                     <th>Golongan</th>
-                                    <th>Honor</th>
+                                    <th>Tarif JP</th>
                                     <th>Pajak</th>
                                     <th>Alamat</th>
                                     <th>Aksi</th>

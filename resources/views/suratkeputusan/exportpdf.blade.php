@@ -76,6 +76,9 @@
         .col-jml-jp {
             width: 10%; /* Lebar kolom jml jp */
         }
+        .col-status {
+            width: 10%; /* Lebar kolom jml jp */
+        }
         .col-tarif-jp {
             width: 10%; /* Lebar kolom tarif jp */
         }
@@ -97,7 +100,7 @@
     <div class="wrapper">
         <div class="box">
             <div class="box-header">
-                <center>DAFTAR PENCERAMAH, PENGAJAR, FASILITATOR PRAKTIKUM</center>
+                <center>LAMPIRAN DOKUMENTASI PELATIHAN</center>
                 <br>
             </div>
             <div class="box-body">
@@ -111,6 +114,7 @@
                             <th class="col-uraian">URAIAN</th>
                             <th class="col-gol">GOL</th>
                             <th class="col-jml-jp">JML JP</th>
+                            <th class="col-status">STATUS</th>
                             <th class="col-tarif-jp">TARIF JP</th>
                             <th class="col-jumlah-bruto">JUMLAH BRUTO</th>
                         </tr>
@@ -134,6 +138,15 @@
                             <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
                             <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
                             <td>{{ number_format($item->jml_jp) }}</td>
+                            <td>
+                                @if($item->approve == 2)
+                                    Approved
+                                @elseif($item->approve == 3)
+                                    Rejected
+                                @else
+                                    Pending
+                                @endif
+                            </td>
                             <td>{{ number_format($item->tarif_jp) }}</td>
                             <td>{{ number_format($item->jumlah_bruto) }}</td>
                             @php
@@ -146,9 +159,11 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colspan="7" style="text-align: right">Total : {{ number_format($jml_jp) }}</td>
-                            <td>Total {{ number_format($tarif_jp) }}</td>
-                            <td>Total : {{ number_format($jumlah_bruto) }}</td>
+                        <td colspan="6" style="text-align: right;">TOTAL</td>
+                        <td class="col-jml-jp">{{ number_format($jml_jp) }}</td>
+                        <td class="col-status"></td> <!-- Kosongkan kolom status di footer -->
+                        <td class="col-tarif-jp">{{ number_format($tarif_jp) }}</td>
+                        <td class="col-jumlah-bruto">{{ number_format($jumlah_bruto) }}</td>
                         </tr>
                     </tfoot>
                 </table>

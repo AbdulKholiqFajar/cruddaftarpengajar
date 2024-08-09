@@ -31,8 +31,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-excel-pegawai', \App\Http\Controllers\ExportExcelPegawaiController::class)->name('export.excel');
     Route::get('/export-pdf-pegawai', \App\Http\Controllers\ExportPdfPegawaiController::class)->name('export.pdf.pegawai');
     Route::get('/export-pdf-mata_pelatihans', \App\Http\Controllers\ExportPdfMataPelatihanController::class)->name('export.pdf.mata_pelatihans');
+    // Route::get('/preview-pdf', [\App\Http\Controllers\ExportPdfsuratkeputusanController::class, '__invoke']);
     Route::get('/export-pdf-suratkeputusan', \App\Http\Controllers\ExportPdfsuratkeputusanController::class)->name('export.pdf');
     Route::get('/export-excel-surat-keputusan', \App\Http\Controllers\ExportExcelSuratKeputusanController::class)->name('export.excel');
+    
+    // Route::put('/suratkeputusan/{id}/approve', [\App\Http\Controllers\suratkeputusanController::class, 'approve'])->name('suratkeputusan.approve');
+    Route::put('/suratkeputusan/{id}/status', [\App\Http\Controllers\suratkeputusanController::class, 'updateStatus'])->name('suratkeputusan.updateStatus');
 
 });
 // Route::resource('pegawai', \App\Http\Controllers\PegawaiController::class);

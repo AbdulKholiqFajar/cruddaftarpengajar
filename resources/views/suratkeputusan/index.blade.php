@@ -24,7 +24,7 @@
                     <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 d-flex align-items-end">
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary mt-4">Filter</button>
                 </div>
@@ -49,13 +49,11 @@
                             <tr>
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
-                                <th>Nama</th>
-                                <th>Uraian</th>
-                                <!-- <th>Sub Mapel</th> -->
-                                <th>Gol</th>
                                 <th>JP</th>
-                                <!-- <th>Tarif JP</th> -->
-                                <!-- <th>Jumlah Bruto</th> -->
+                                <th>Nama</th>
+                                <th>Mata Pelatihan</th>
+                                <th>Gol</th>
+                                <th>PETUGAS SK</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -64,19 +62,29 @@
                                 <tr>
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
+                                    <td>{{ number_format($item->jml_jp) }}</td>
                                     <td>{{ $item->pegawai?->nama_pengajar }}</td>
                                     <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
-                                    <!-- <td>{{ $item->sub_mata_pelatihan ? $item->sub_mata_pelatihan->sub_mata_pelatihan : 'Data Tidak Tersedia' }}</td> -->
                                     <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
-                                    <td>{{ number_format($item->jml_jp) }}</td>
-                                    <!-- <td>{{ number_format($item->tarif_jp) }}</td> -->
-                                    <!-- <td>{{ number_format($item->jumlah_bruto) }}</td> -->
+                                    <td>
+                                        <form id="status-form-{{ $item->id }}" action="{{ route('suratkeputusan.updateStatus', $item->id) }}" method="POST" class="status-form">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="form-group">
+                                                <select name="status" class="form-control" onchange="updateStatus({{ $item->id }}, this)">
+                                                    <option value="" disabled selected>Pilih Status</option>
+                                                    <option value="approved" {{ $item->approve == 2 ? 'selected' : '' }}>✔️</option>
+                                                    <option value="rejected" {{ $item->approve == 3 ? 'selected' : '' }}>❌</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </td>
                                     <td>
                                         <a href="{{ route('suratkeputusan.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                         <a href="{{ route('suratkeputusan.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
                                         <button type="button" class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                            <i class="fa fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @empty
@@ -96,6 +104,30 @@
 
 @push('scripts')
     <script>
+        function updateStatus(id, selectElement) {
+            var form = document.getElementById('status-form-' + id);
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire('Berhasil!', data.message, 'success');
+                } else {
+                    Swal.fire('Gagal!', data.message, 'error');
+                }
+            })
+            .catch(error => {
+                Swal.fire('Error!', 'Terjadi kesalahan saat mengubah status.', 'error');
+                console.error('Error:', error);
+            });
+        }
+
         $(document).ready(function () {
             $('#suratkeputusanTable').DataTable({
                 "paging": true,
