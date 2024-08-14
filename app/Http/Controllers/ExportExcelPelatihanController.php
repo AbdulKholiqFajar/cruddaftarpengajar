@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\SuratKeputusanExport;
+use App\Exports\PelatihanExport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ExportExcelSuratKeputusanController extends Controller
+class ExportExcelPelatihanController extends Controller
 {
     public function __invoke(Request $request)
     {
         $data = $request->all();
-        return Excel::download(new SuratKeputusanExport($data), 'surat_keputusan.xlsx');
+        return Excel::download(new PelatihanExport($data), 'pelatihan.xlsx');
     }
 }

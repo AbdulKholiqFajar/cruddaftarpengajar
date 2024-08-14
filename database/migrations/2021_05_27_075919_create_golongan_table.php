@@ -14,8 +14,9 @@ class CreateGolonganTable extends Migration
     public function up()
     {
         Schema::create('golongan', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->unsigned(); 
             $table->string('nama');
+            $table->timestamps();
         });
     }
 

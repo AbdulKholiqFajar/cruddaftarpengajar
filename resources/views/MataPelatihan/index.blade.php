@@ -12,13 +12,12 @@
         <div class="col-12">
             <div class="card">
                 <!-- Card Body -->
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-container">
+                <div class="card-header">
+                    <h3 class="card-title mb-3">
                             <a href="{{ route('mata_pelatihans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
-                            <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
-                        </div>
-                    </div>
+                            {{-- <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a> --}}
+                    </h3>
+                   
                     <div class="table-responsive">
                         <table id="mataPelatihanTable" class="table table-bordered table-hover">
                             <thead>

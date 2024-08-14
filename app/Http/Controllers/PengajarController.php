@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Golongan;
-use App\Models\Pegawai;
+use App\Models\Pengajar;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class PegawaiController extends Controller
+class PengajarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,12 +16,12 @@ class PegawaiController extends Controller
      */
     public function index()
     {
-        return view('pegawai.index', [
-            'pegawai' => Pegawai::paginate(10),
+        return view('pengajar.index', [
+            'pengajar' => Pengajar::paginate(10),
         ]);
 
-        $pegawai = Pegawai::with('golongan')->get(); // Ambil semua pegawai dengan relasi golongan
-        return view('pegawai.index', compact('pegawai')); // Kirim ke view
+        $pengajar = Pengajar::with('golongan')->get(); 
+        return view('pengajar.index', compact('pengajar')); 
 
         
     }
@@ -33,7 +33,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view('pegawai.create', [
+        return view('pengajar.create', [
             'golongan' => Golongan::all(),
         ]);
     }
@@ -47,7 +47,7 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nip' => ['required', 'numeric', 'unique:pegawai,nip'],
+            'nip' => ['required', 'numeric', 'unique:pengajar,nip'],
             'nama_pengajar' => ['required', 'string', 'max:255'],
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
@@ -56,11 +56,11 @@ class PegawaiController extends Controller
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 
-        Pegawai::create($validatedData);
+        Pengajar::create($validatedData);
 
         session()->flash('success', 'Data Berhasil Ditambahkan.');
 
-        return redirect()->route('pegawai.index');
+        return redirect()->route('pengajar.index');
     }
 
     /**
@@ -71,8 +71,8 @@ class PegawaiController extends Controller
      */
     public function show($id)
     {
-        $pegawai = Pegawai::findOrFail($id);
-        return view('pegawai.show', compact('pegawai'));
+        $pengajar = Pengajar::findOrFail($id);
+        return view('pengajar.show', compact('pengajar'));
         //
     }
 
@@ -84,9 +84,9 @@ class PegawaiController extends Controller
      */
     public function edit($id)
     {
-        $pegawai = Pegawai::findOrFail($id);
+        $pengajar = Pengajar::findOrFail($id);
         $golongan = Golongan::all(); // Pastikan untuk mengirimkan data golongan juga
-        return view('pegawai.edit', compact('pegawai', 'golongan'));
+        return view('pengajar.edit', compact('pengajar', 'golongan'));
     }
 
     /**
@@ -98,11 +98,11 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pegawai = Pegawai::findOrFail($id);
+        $pengajar = Pengajar::findOrFail($id);
         $validatedData = $request->validate([
             'nip' => [
                 'required',
-                Rule::unique('pegawai')->ignore($pegawai->id)
+                Rule::unique('pengajar')->ignore($pengajar->id)
             ],
             'nama_pengajar' => ['required', 'string', 'max:255'],
             'jabatan' => ['required', 'string', 'max:255'],
@@ -112,12 +112,12 @@ class PegawaiController extends Controller
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 
-        $pegawai = Pegawai::findOrFail($id);
-        $pegawai->update($validatedData);
+        // $pengajar = pengajar::findOrFail($id);
+        $pengajar->update($validatedData);
 
         session()->flash('success', 'Data Berhasil Diperbarui.');
 
-        return redirect()->route('pegawai.index');
+        return redirect()->route('pengajar.index');
     }
 
     /**
@@ -129,9 +129,20 @@ class PegawaiController extends Controller
     
     public function destroy($id)
     {
-        $pegawai = Pegawai::findOrFail($id);
-        $pegawai->delete();
+        $pengajar = Pengajar::findOrFail($id);
+        $pengajar->delete();
         
         return response()->json(['success' => true]);
+    }
+
+    public function getGolongan($id)
+    {
+        $pengajar = Pengajar::find($id);
+        if ($pengajar) {
+            return response()->json([
+                'golongan' => $pengajar->golongan ? $pengajar->golongan->nama : ''
+            ]);
+        }
+        return response()->json(['golongan' => ''], 404);
     }
 }

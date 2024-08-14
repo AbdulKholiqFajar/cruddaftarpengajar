@@ -5,45 +5,36 @@
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
 
-    class SuratKeputusan extends Model
+    class Pelatihan extends Model
     {
         use HasFactory;
 
-        // Tentukan nama tabel jika tidak mengikuti konvensi Laravel
-        protected $table = 'suratkeputusan';
+        protected $table = 'pelatihan';
 
-        // Tentukan atribut yang bisa diisi secara massal
         protected $fillable = [
+            'title',
             'tanggal',
             'start_time',
             'end_time',
-            'pegawai_id',
+            'pengajar_id',
             'mata_pelatihan_id',
             'golongan_id',
             'jml_jp',
             'tarif_jp',
             'jumlah_bruto',
             'approve',
-            // 'sub_mata_pelatihan_id',
         ];
 
-        // Tentukan relasi dengan model Golongan
         public function golongan()
         {
-            return $this->belongsTo(Golongan::class, 'golongan_id');
+            return $this->belongsTo(Golongan::class, 'golongan_id', 'nama');
         }
         public function mata_pelatihan()
         {
             return $this->belongsTo(MataPelatihan::class, 'mata_pelatihan_id');
         }
-        public function pegawai()
+        public function pengajar()
         {
-            return $this->belongsTo(Pegawai::class, 'pegawai_id');
+            return $this->belongsTo(Pengajar::class, 'pengajar_id');
         }
-
-        public function sub_mata_pelatihan()
-        {
-            return $this->belongsTo(SubMataPelatihan::class, 'sub_mata_pelatihan_id');
-        }
-
     }

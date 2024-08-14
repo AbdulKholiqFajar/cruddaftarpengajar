@@ -113,4 +113,15 @@ class MataPelatihanController extends Controller
         
         return response()->json(['success' => true]);
     }
+
+    public function getJumlahJP($id)
+{
+    $mataPelatihan = MataPelatihan::find($id);
+    if ($mataPelatihan) {
+        return response()->json(['jml_jp' => $mataPelatihan->jml_jp]);
+    } else {
+        return response()->json(['jml_jp' => 0], 404);
+    }
 }
+}
+

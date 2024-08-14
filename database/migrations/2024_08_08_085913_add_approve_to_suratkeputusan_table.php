@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddApproveToSuratkeputusanTable extends Migration
+class AddApproveToPelatihanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddApproveToSuratkeputusanTable extends Migration
      */
     public function up()
     {
-        Schema::table('suratkeputusan', function (Blueprint $table) {
+        Schema::table('pelatihan', function (Blueprint $table) {
             $table->boolean('approve')->default(false)->after('jumlah_bruto'); // Menambahkan kolom approve setelah kolom jumlah_bruto
         });
     }
@@ -25,7 +25,7 @@ class AddApproveToSuratkeputusanTable extends Migration
      */
     public function down()
     {
-        Schema::table('suratkeputusan', function (Blueprint $table) {
+        Schema::table('pelatihan', function (Blueprint $table) {
             $table->id();
             $table->integer('approve')->nullable(); // Atau tipe data sesuai dengan yang digunakan
             // Kolom lain

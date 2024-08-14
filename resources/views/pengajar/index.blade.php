@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Sub Mata Pelatihan
+    Daftar Pengajar
 @endsection
 
 @section('content')
@@ -11,52 +11,49 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <!-- Card Header -->
+                <!-- Card Body -->
                 <div class="card-header">
-                    <h3 class="card-title">
-                        <a href="{{ route('sub_mata_pelatihans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
-                        <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
+                    <h3 class="card-title mb-3">
+                            <a href="{{ route('pengajar.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
+                            {{-- <a href="{{ route('export.pdf.pengajar') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a> --}}
+                            <!-- <a href="{{ route('export.excel') }}" class="btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a> -->
                     </h3>
-                </div>
 
-                    <!-- <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="table-responsive p-0">
-                        <table id="mataPelatihanTable" class="table table-bordered table-hover">
+                    <div class="table-responsive">
+                        <table id="pengajarTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Kode Mata Pelatihan</th>
-                                    <th>Mata Pelatihan</th>
-                                    <th>Sub Mata Pelatihan</th>
+                                    <th>NIP</th>
+                                    <th>Nama Pengajar</th>
+                                    <th>Jabatan</th>
+                                    <th>Golongan</th>
+                                    <th>Tarif JP</th>
+                                    <th>Pajak</th>
+                                    <th>Alamat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($sub_mata_pelatihans as $item)
+                                @forelse($pengajar as $item)
                                     <tr>
-                                        <td>{{ $item->code_sub_mata_pelatihan }}</td>
-                                        <td>{{ $item->mata_pelatihan->mata_pelatihan }}</td>
-                                        <td>{{ $item->sub_mata_pelatihan }}</td>
+                                        <td>{{ $item->nip }}</td>
+                                        <td>{{ $item->nama_pengajar }}</td>
+                                        <td>{{ $item->jabatan }}</td>
+                                        <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
+                                        <td>{{ number_format($item->honor) }}</td>
+                                        <td>{{ number_format($item->pajak) }}</td>
+                                        <td>{{ $item->alamat }}</td>
                                         <td>
-                                            <a href="{{ route('sub_mata_pelatihans.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                            <a href="{{ route('sub_mata_pelatihans.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                            <a href="#" data-id="{{ $item->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('pengajar.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
+                                            <a href="{{ route('pengajar.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                            <button type="button" class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="text-center">Belum Ada Data</td>
+                                        <td colspan="8" class="text-center">Belum Ada Data</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -65,15 +62,13 @@
                 </div>
                 <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
     </div>
-@endsection
 
-@push('scripts')
+    @push('scripts')
     <script>
         $(document).ready(function () {
-            $('#submataPelatihanTable').DataTable({
+            $('#pengajarTable').DataTable({
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
@@ -103,7 +98,7 @@
                     if (result.value) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '/sub_mata_pelatihans/' + id,
+                            url: '/pengajar/' + id,
                             data: {
                                 '_token': "{{ csrf_token() }}"
                             },
@@ -114,7 +109,7 @@
                                     'success'
                                 ).then(() => {
                                     // Redirect to index page
-                                    window.location.href = '{{ route('sub_mata_pelatihans.index') }}';
+                                    window.location.href = '{{ route('pengajar.index') }}';
                                 });
                             },
                             error: function (xhr) {
@@ -126,4 +121,5 @@
             });
         });
     </script>
-@endpush
+    @endpush
+@endsection

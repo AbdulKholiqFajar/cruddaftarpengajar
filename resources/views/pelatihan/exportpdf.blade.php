@@ -100,7 +100,7 @@
     <div class="wrapper">
         <div class="box">
             <div class="box-header">
-                <center>LAMPIRAN DOKUMENTASI PELATIHAN</center>
+                <center></center>
                 <br>
             </div>
             <div class="box-body">
@@ -114,7 +114,7 @@
                             <th class="col-uraian">URAIAN</th>
                             <th class="col-gol">GOL</th>
                             <th class="col-jml-jp">JML JP</th>
-                            <th class="col-status">STATUS</th>
+                            {{-- <th class="col-status">STATUS</th> --}}
                             <th class="col-tarif-jp">TARIF JP</th>
                             <th class="col-jumlah-bruto">JUMLAH BRUTO</th>
                         </tr>
@@ -126,7 +126,7 @@
                             $tarif_jp = 0;
                             $jumlah_bruto = 0;
                         @endphp
-                        @foreach ($suratkeputusan as $item)
+                        @foreach ($pelatihan as $item)
                         @php
                             $no++;
                         @endphp
@@ -134,11 +134,11 @@
                             <td>{{ $no }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
-                            <td>{{ $item->pegawai?->nama_pengajar }}</td>
+                            <td>{{ $item->pengajar?->nama_pengajar }}</td>
                             <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
                             <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
                             <td>{{ number_format($item->jml_jp) }}</td>
-                            <td>
+                            {{-- <td>
                                 @if($item->approve == 2)
                                     Approved
                                 @elseif($item->approve == 3)
@@ -146,7 +146,7 @@
                                 @else
                                     Pending
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>{{ number_format($item->tarif_jp) }}</td>
                             <td>{{ number_format($item->jumlah_bruto) }}</td>
                             @php

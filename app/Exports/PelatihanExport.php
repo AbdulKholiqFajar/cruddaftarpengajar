@@ -2,14 +2,14 @@
 
 namespace App\Exports;
 
-use App\Models\SuratKeputusan;
+use App\Models\Pelatihan;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SuratKeputusanExport implements FromCollection, WithHeadings, WithStyles, WithTitle
+class PelatihanExport implements FromCollection, WithHeadings, WithStyles, WithTitle
 {
     protected $data;
 
@@ -22,19 +22,19 @@ class SuratKeputusanExport implements FromCollection, WithHeadings, WithStyles, 
     {
         $startDate = $this->data['start_date'];
         $endDate = $this->data['end_date'];
-        $query = suratkeputusan::with(['golongan','mata_pelatihan','pegawai']);
+        $query = Pelatihan::with(['golongan','mata_pelatihan','pengajar']);
         
         if ($startDate && $endDate) {
             $query->whereBetween('tanggal', [$startDate, $endDate]);
         }
         
-        $suratkeputusan = $query->get();
-        return $suratkeputusan->map(function ($item) {
+        $pelatihan = $query->get();
+        return $pelatihan->map(function ($item) {
             return [
                 'no' => $item->id,
                 'tanggal' => $item->tanggal instanceof \Carbon\Carbon ? $item->tanggal->format('d/m/Y') : $item->tanggal,
                 'waktu' => $item->start_time.' - '.$item->end_time,
-                'nama' => $item->pegawai?->nama_pengajar,
+                'nama' => $item->pengajar?->nama_pengajar,
                 'uraian' => $item->mata_pelatihan?->mata_pelatihan,
                 'golongan' => $item->golongan ? $item->golongan->nama : 'N/A',
                 'jml_jp' => $item->jml_jp,
@@ -90,6 +90,6 @@ class SuratKeputusanExport implements FromCollection, WithHeadings, WithStyles, 
 
     public function title(): string
     {
-        return 'Daftar Surat Keputusan';
+        return 'Daftar Pelatihan';
     }
 }

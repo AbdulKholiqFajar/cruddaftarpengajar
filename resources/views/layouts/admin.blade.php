@@ -19,6 +19,13 @@
     <!-- DataTables Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 
+        <!-- Summernote CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">
+
+    <!-- Summernote JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+
+
     <!-- Custom CSS -->
     <style>
         /* Menghapus bayangan dari ikon panah */
@@ -92,14 +99,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('pegawai.index') }}"
-                        class="nav-link {{ (request()->is('pegawai*')) ? 'active' : '' }}">
+                        <a href="{{ route('pengajar.index') }}"
+                        class="nav-link {{ (request()->is('pengajar*')) ? 'active' : '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Pengajar
                             </p>
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a href="{{ route('mata_pelatihans.index') }}"
                            class="nav-link {{ (request()->is('mata_pelatihans*')) ? 'active' : '' }}">
@@ -109,18 +117,20 @@
                             </p>
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a href="{{ route('sub_mata_pelatihans.index') }}"
-                           class="nav-link {{ (request()->is('sub_mata_pelatihan*')) ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-book"></i>
+                   
+                    <li class="nav-item">
+                        <a href="{{ route('pelatihan.index') }}"
+                           class="nav-link {{ (request()->is('pelatihan*')) ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-file"></i>
                             <p>
-                                Sub Mata Pelatihan
+                                Pelatihan
                             </p>
                         </a>
-                    </li> -->
+                    </li>
+
                     <li class="nav-item">
-                        <a href="{{ route('suratkeputusan.index') }}"
-                           class="nav-link {{ (request()->is('suratkeputusan*')) ? 'active' : '' }}">
+                        <a href="{{ route('sk.index') }}"
+                           class="nav-link {{ (request()->is('sk*')) ? 'active' : '' }}">
                             <i class="nav-icon fas fa-file"></i>
                             <p>
                                 Surat Keputusan

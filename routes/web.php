@@ -23,25 +23,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('pegawai', \App\Http\Controllers\PegawaiController::class);
+    Route::resource('pengajar', \App\Http\Controllers\PengajarController::class);
     Route::resource('mata_pelatihans', \App\Http\Controllers\MataPelatihanController::class);
-    Route::resource('suratkeputusan', \App\Http\Controllers\suratkeputusanController::class);
-    Route::resource('sub_mata_pelatihans', \App\Http\Controllers\SubMataPelatihanController::class);
+    Route::resource('pelatihan', \App\Http\Controllers\PelatihanController::class);
+    Route::resource('sk', \App\Http\Controllers\SkController::class);
 
-    Route::get('/export-excel-pegawai', \App\Http\Controllers\ExportExcelPegawaiController::class)->name('export.excel');
-    Route::get('/export-pdf-pegawai', \App\Http\Controllers\ExportPdfPegawaiController::class)->name('export.pdf.pegawai');
+    Route::get('/export-excel-pengajar', \App\Http\Controllers\ExportExcelPengajarController::class)->name('export.excel');
+    Route::get('/export-pdf-pengajar', \App\Http\Controllers\ExportPdfPengajarController::class)->name('export.pdf.pengajar');
     Route::get('/export-pdf-mata_pelatihans', \App\Http\Controllers\ExportPdfMataPelatihanController::class)->name('export.pdf.mata_pelatihans');
-    // Route::get('/preview-pdf', [\App\Http\Controllers\ExportPdfsuratkeputusanController::class, '__invoke']);
-    Route::get('/export-pdf-suratkeputusan', \App\Http\Controllers\ExportPdfsuratkeputusanController::class)->name('export.pdf');
-    Route::get('/export-excel-surat-keputusan', \App\Http\Controllers\ExportExcelSuratKeputusanController::class)->name('export.excel');
+    Route::get('/export-pdf-pelatihan', \App\Http\Controllers\ExportPdfPelatihanController::class)->name('export.pdf');
+    Route::get('/export-pdf-detail-pelatihan', [\App\Http\Controllers\PelatihanController::class, 'exportPdf'])->name('export.surat.pdf');
+    Route::get('/export-excel-pelatihan', \App\Http\Controllers\ExportExcelPelatihanController::class)->name('export.excel');
+    Route::get('/pengajar/{id}/golongan', [\App\Http\Controllers\PengajarController::class, 'getGolongan'])->name('pengajar.golongan');
+    Route::get('/mata_pelatihan/{id}', [\App\Http\Controllers\MataPelatihanController::class, 'getJumlahJP']);
     
-    // Route::put('/suratkeputusan/{id}/approve', [\App\Http\Controllers\suratkeputusanController::class, 'approve'])->name('suratkeputusan.approve');
-    Route::put('/suratkeputusan/{id}/status', [\App\Http\Controllers\suratkeputusanController::class, 'updateStatus'])->name('suratkeputusan.updateStatus');
+    Route::put('/pelatihan/{id}/status', [\App\Http\Controllers\PelatihanController::class, 'updateStatus'])->name('pelatihan.updateStatus');
 
 });
-// Route::resource('pegawai', \App\Http\Controllers\PegawaiController::class);
+
 
 require __DIR__ . '/auth.php';
-
-// Route::get('/export-excel-pegawai', ExportExcelPegawaiController::class)->name('export.excel');
-// Route::get('/export-pdf-pegawai', ExportPdfPegawaiController::class)->name('export.pdf');

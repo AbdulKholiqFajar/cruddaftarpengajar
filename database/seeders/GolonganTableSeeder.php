@@ -14,16 +14,12 @@ class GolonganTableSeeder extends Seeder
      */
     public function run()
     {
-        // Hapus data lama yang ingin dihapus
-        // Golongan::whereIn('nama', ['Golongan I', 'Golongan II', 'Golongan III', 'Golongan IV'])->delete();
-
         // Data baru yang ingin dimasukkan
         $datas = [
-            '-',
-            'I',
-            'II',
-            'III',
-            'IV',
+            1, 
+            2, 
+            3,
+            4, 
         ];
 
         foreach ($datas as $data) {

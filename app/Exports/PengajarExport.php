@@ -2,11 +2,11 @@
 
 namespace App\Exports;
 
-use App\Models\Pegawai;
+use App\Models\Pengajar;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class PegawaiExport implements FromCollection, WithHeadings
+class PengajarExport implements FromCollection, WithHeadings
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -15,7 +15,7 @@ class PegawaiExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return Pegawai::all();
+        return Pengajar::all();
     }
 
     public function headings(): array

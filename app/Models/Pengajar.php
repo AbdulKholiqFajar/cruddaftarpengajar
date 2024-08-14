@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pegawai extends Model
+class Pengajar extends Model
 {
     use HasFactory;
 
-    protected $table = 'pegawai';
+    protected $table = 'pengajar';
 
     protected $fillable = [
         'nip',
@@ -27,12 +27,11 @@ class Pegawai extends Model
 
     public function golongan()
     {
-        return $this->belongsTo(Golongan::class);
+        return $this->belongsTo(Golongan::class, 'golongan_id');
     }
 
-    public function suratKeputusan()
+    public function pelatihan()
     {
-        return $this->hasOne(SuratKeputusan::class, 'nama_pengajar', 'nama_pengajar');
+        return $this->hasMany(Pelatihan::class, 'pengajar_id');
     }
-    
 }

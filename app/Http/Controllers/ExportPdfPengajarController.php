@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MataPelatihan;
+use App\Models\Pengajar;
 use Illuminate\Http\Request;
 use PDF;
 
-class ExportPdfMataPelatihanController extends Controller
+class ExportPdfPengajarController extends Controller
 {
 
     public function __invoke(Request $request)
     {
-    
-        $pdf = PDF::loadview('MataPelatihan.exportpdf', [
-            'mata_pelatihans' => MataPelatihan::all(),
+        $pdf = PDF::loadview('pengajar.exportpdf', [
+            'pengajar' => Pengajar::all(),
         ])->setPaper('F4', 'landscape');
         return $pdf->stream();
     }

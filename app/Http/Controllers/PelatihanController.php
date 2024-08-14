@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\suratkeputusan;
+use App\Models\Pelatihan;
 use App\Models\Golongan;
-use App\Models\Pegawai;
+use App\Models\Pengajar;
 use App\Models\MataPelatihan;
+use Barryvdh\DomPDF\Facade as pdf;
 
-class suratkeputusanController extends Controller
+class PelatihanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +18,7 @@ class suratkeputusanController extends Controller
      */
     public function index(Request $request)
     {
-        $query = suratkeputusan::with(['golongan','mata_pelatihan','pegawai']);
+        $query = Pelatihan::with(['golongan','mata_pelatihan','pengajar']);
         
         if ($request->has('start_date') && $request->has('end_date')) {
             $startDate = $request->input('start_date');
@@ -26,8 +27,8 @@ class suratkeputusanController extends Controller
             $query->whereBetween('tanggal', [$startDate, $endDate]);
         }
         
-        $suratkeputusan = $query->get();
-        return view('suratkeputusan.index', compact('suratkeputusan'));
+        $pelatihan = $query->get();
+        return view('pelatihan.index', compact('pelatihan'));
     }
 
     /**
@@ -38,9 +39,9 @@ class suratkeputusanController extends Controller
     public function create()
     {
         $golongan = Golongan::all();
-        $pegawai = Pegawai::all();
+        $pengajar = Pengajar::all();
         $mataPelatihan = MataPelatihan::all();
-        return view('suratkeputusan.create', compact('golongan','pegawai','mataPelatihan'));
+        return view('pelatihan.create', compact('golongan','pengajar','mataPelatihan'));
     }
 
     /**
@@ -52,31 +53,33 @@ class suratkeputusanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'title' => 'required',
             'tanggal' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required',
             'nama_pengajar' => 'required',
             'mapel' => 'required',
-            'golongan_id' => 'required|exists:golongan,id',
+            'golongan_id' => 'required|integer|exists:golongan,nama',
             'jml_jp' => 'required',
             'tarif_jp' => 'required|numeric',
             'jumlah_bruto' => 'required',
         ]);
 
         $data = [
+            'title' => $request->title,
             'tanggal' => $request->tanggal,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'pegawai_id' => $request->nama_pengajar,
+            'pengajar_id' => $request->nama_pengajar,
             'mata_pelatihan_id' => $request->mapel,
-            'golongan_id' => $request->golongan_id,
+            'golongan_id' => (int) $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
             'tarif_jp' => str_replace(',', '', $request->tarif_jp),
             'jumlah_bruto' => str_replace(',', '', $request->jumlah_bruto),
         ];
-        suratkeputusan::create($data);
+        pelatihan::create($data);
 
-        return redirect()->route('suratkeputusan.index')->with('success', 'Data berhasil disimpan.');
+        return redirect()->route('pelatihan.index')->with('success', 'Data berhasil disimpan.');
     }
 
     /**
@@ -87,8 +90,11 @@ class suratkeputusanController extends Controller
      */
     public function show($id)
     {
-        $suratkeputusan = suratkeputusan::findOrFail($id);
-        return view('suratkeputusan.show', compact('suratkeputusan'));
+        $pelatihan = Pelatihan::findOrFail($id);
+        $pelatihanArr = Pelatihan::where('title', $pelatihan->title)->get();
+        $grouppelatihan = $pelatihanArr->groupBy('title');
+    
+        return view('pelatihan.show', compact('pelatihan','grouppelatihan'));
     }
 
     /**
@@ -99,11 +105,11 @@ class suratkeputusanController extends Controller
      */
     public function edit($id)
     {
-        $suratkeputusan = suratkeputusan::findOrFail($id);
+        $pelatihan = Pelatihan::findOrFail($id);
         $golongan = Golongan::all();
-        $pegawai = Pegawai::all();
+        $pengajar = PengajarController::all();
         $mataPelatihan = MataPelatihan::all();
-        return view('suratkeputusan.edit', compact('suratkeputusan', 'golongan','pegawai','mataPelatihan'));
+        return view('pelatihan.edit', compact('pelatihan', 'golongan','pengajar','mataPelatihan'));
     }
 
     /**
@@ -116,32 +122,34 @@ class suratkeputusanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'title' => 'required',
             'tanggal' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required',
             'nama_pengajar' => 'required',
             'mapel' => 'required',
-            'golongan_id' => 'required|exists:golongan,id',
+            'golongan_id' => 'required|integer|exists:golongan,nama',
             'jml_jp' => 'required',
-            'tarif_jp' => 'required|numeric',
+            'tarif_jp' => 'required',
             'jumlah_bruto' => 'required',
         ]);
 
         $data = [
+            'title' => $request->title,
             'tanggal' => $request->tanggal,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'pegawai_id' => $request->nama_pengajar,
+            'pengajar_id' => $request->nama_pengajar,
             'mata_pelatihan_id' => $request->mapel,
-            'golongan_id' => $request->golongan_id,
+            'golongan_id' => (int) $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
             'tarif_jp' => str_replace(',', '', $request->tarif_jp),
             'jumlah_bruto' => str_replace(',', '', $request->jumlah_bruto),
         ];
-        $suratkeputusan = suratkeputusan::findOrFail($id);
-        $suratkeputusan->update($data);
+        $pelatihan = Pelatihan::findOrFail($id);
+        $pelatihan->update($data);
 
-        return redirect()->route('suratkeputusan.index')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('pelatihan.index')->with('success', 'Data berhasil diperbarui.');
     }
 
     /**
@@ -152,8 +160,8 @@ class suratkeputusanController extends Controller
      */
     public function destroy($id)
     {
-        $suratkeputusan = suratkeputusan::findOrFail($id);
-        $suratkeputusan->delete();
+        $pelatihan = Pelatihan::findOrFail($id);
+        $pelatihan->delete();
 
         return response()->json(['success' => 'Data berhasil dihapus.']);
     }
@@ -163,7 +171,7 @@ class suratkeputusanController extends Controller
         $status = $request->input('status');
         $statusCode = $status == 'approved' ? 2 : ($status == 'rejected' ? 3 : 0);
 
-        $updated = SuratKeputusan::where('id', $id)->update([
+        $updated = Pelatihan::where('id', $id)->update([
             'approve' => $statusCode
         ]);
 
@@ -172,5 +180,15 @@ class suratkeputusanController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Gagal mengubah status data.']);
         }
+    }
+
+    public function exportPdf(Request $request){
+        $pelatihanArr = Pelatihan::where('title', $request->title)->get();
+        $groupPelatihan = $pelatihanArr->groupBy('title');
+        $pdf = pdf::loadview('pelatihan.exportDetailPdf', [
+            'groupPelatihan' => $groupPelatihan,
+            'title' =>  $request->title,
+        ])->setPaper('F4', 'landscape');
+        return $pdf->stream();
     }
 }

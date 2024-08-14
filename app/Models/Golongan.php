@@ -13,7 +13,10 @@ class Golongan extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'nama',
-    ];
+    protected $fillable = ['nama'];
+
+    public function pengajar()
+    {
+        return $this->hasMany(Pengajar::class, 'golongan_id');
+    }
 }

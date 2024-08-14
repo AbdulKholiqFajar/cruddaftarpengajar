@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
-use App\Models\suratkeputusan;
+use App\Models\Pengajar;
+use App\Models\Pelatihan;
 use App\Models\MataPelatihan;
 use Illuminate\Http\Request;
 
@@ -11,9 +11,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $pegawaiCount = Pegawai::get()->count();
+        $pengajarCount = Pengajar::get()->count();
         $mapelCount = MataPelatihan::get()->count();
-        $suratCount = suratkeputusan::get()->count();
-        return view('dashboard', compact('pegawaiCount','mapelCount','suratCount'));
+        $pelatihanCount = Pelatihan::get()->count();
+        return view('dashboard', compact('pengajarCount','mapelCount','pelatihanCount'));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\PegawaiExport;
+use App\Exports\PengajarExport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ExportExcelPegawaiController extends Controller
+class ExportExcelPengajarController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -16,6 +16,6 @@ class ExportExcelPegawaiController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Excel::download(new PegawaiExport, 'pegawai.xlsx');
+        return Excel::download(new PengajarExport, 'pengajar.xlsx');
     }
 }
