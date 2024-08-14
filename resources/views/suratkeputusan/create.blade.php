@@ -42,7 +42,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="tentang">Tentang</label>
-                                <textarea id="tentang" name="tentang" class="form-control summernote">{{ old('tentang', 'Isi default untuk tentang') }}</textarea>
+                                <textarea id="tentang" name="tentang" class="form-control summernote">{{ old('tentang') }}</textarea>
                                 @error('tentang')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -54,7 +54,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="menimbang">Menimbang</label>
-                                <textarea id="menimbang" name="menimbang" class="form-control summernote">{{ old('menimbang', 'Isi default untuk menimbang') }}</textarea>
+                                <textarea id="menimbang" name="menimbang" class="form-control summernote">{{ old('menimbang') }}</textarea>
                                 @error('menimbang')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -66,7 +66,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="mengingat">Mengingat</label>
-                                <textarea id="mengingat" name="mengingat" class="form-control summernote">{{ old('mengingat', 'Isi default untuk mengingat') }}</textarea>
+                                <textarea id="mengingat" name="mengingat" class="form-control summernote">{{ old('mengingat') }}</textarea>
                                 @error('mengingat')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -78,7 +78,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="menetapkan">Menetapkan</label>
-                                <textarea id="menetapkan" name="menetapkan" class="form-control summernote">{{ old('menetapkan', 'Isi default untuk menetapkan') }}</textarea>
+                                <textarea id="menetapkan" name="menetapkan" class="form-control summernote">{{ old('menetapkan') }}</textarea>
                                 @error('menetapkan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -90,7 +90,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="tembusan">Tembusan</label>
-                                <textarea id="tembusan" name="tembusan" class="form-control summernote">{{ old('tembusan', 'Isi default untuk tembusan') }}</textarea>
+                                <textarea id="tembusan" name="tembusan" class="form-control summernote">{{ old('tembusan') }}</textarea>
                                 @error('tembusan')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -102,7 +102,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="isi">Isi</label>
-                                <textarea id="isi" name="isi" class="form-control summernote">{{ old('isi', 'Isi default untuk isi') }}</textarea>
+                                <textarea id="isi" name="isi" class="form-control summernote">{{ old('isi') }}</textarea>
                                 @error('isi')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -128,7 +128,10 @@
 <script>
     $(document).ready(function () {
         $('.summernote').summernote({
-            height: 200 // Atur tinggi editor sesuai kebutuhan
+            height: 300,   // Set height of editor
+            minHeight: null,  // Set minimum height of editor
+            maxHeight: null,  // Set maximum height of editor
+            focus: true,   // Set focus to editable area after initializing summernote
         });
     });
 </script>

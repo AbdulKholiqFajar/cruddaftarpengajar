@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-header">
                 
-                <a href="{{ route('suratkeputusan.create') }}" class="btn btn-primary float-right">Tambah SK</a>
+                <a href="{{ route('sk.create') }}" class="btn btn-primary float-right">Tambah SK</a>
             </div>
             <div class="card-body">
                 <table class="table table-bordered" id="sk-table">
