@@ -17,8 +17,20 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="title">Judul</label>
-                                    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="Judul" value="{{ old('title') }}">
+                                    <label for="title" class="d-flex">
+                                        Judul
+                                        <div class="form-check ml-3">
+                                            <input class="form-check-input" type="checkbox" id="is_new" name="is_new" value="1">
+                                            <label class="form-check-label">Tambah Judul Baru</label>
+                                        </div>
+                                    </label>
+                                    <select name="title_select" id="title" class="form-control is_select select2">
+                                        <option value="">Pilih Judul</option>
+                                        @foreach($masterPelatihan as $item)
+                                            <option value="{{ $item }}" {{ @$data['title'] == $item ? 'selected' : '' }}>{{ strtoupper($item) }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="text" name="title_input" class="form-control is_input hidden @error('title') is-invalid @enderror" id="title" placeholder="Judul" value="{{ old('title') }}">
                                     @error('title')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -115,7 +127,7 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            @can('pelatihan-not-penyelengara')
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="tarif_jp">TARIF JP</label>
@@ -139,6 +151,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            @endcan
                         </div>
                         
                         <!-- Buttons -->
@@ -173,38 +186,49 @@
                     $('#golongan_id').val('');
                 }
             });
-
             $('#mapel').on('change', function () {
-            var mataPelatihanId = $(this).val();
-            if (mataPelatihanId) {
-                $.ajax({
-                    url: '/mata_pelatihan/' + mataPelatihanId,
-                    method: 'GET',
-                    success: function (response) {
-                        $('#jml_jp').val(response.jml_jp);
-                        calculateJumlahBruto(); // Update jumlah bruto setelah mengubah jumlah JP
-                    },
-                    error: function () {
-                        $('#jml_jp').val('');
-                    }
-                });
-            } else {
-                $('#jml_jp').val('');
-            }
-        });
+                var mataPelatihanId = $(this).val();
+                if (mataPelatihanId) {
+                    $.ajax({
+                        url: '/mata_pelatihan/' + mataPelatihanId,
+                        method: 'GET',
+                        success: function (response) {
+                            $('#jml_jp').val(response.jml_jp);
+                            calculateJumlahBruto(); // Update jumlah bruto setelah mengubah jumlah JP
+                        },
+                        error: function () {
+                            $('#jml_jp').val('');
+                        }
+                    });
+                } else {
+                    $('#jml_jp').val('');
+                }
+            });
 
             function calculateJumlahBruto() {
                 let tarif_jp = $("#tarif_jp").val().replace(/,/g, '');
                 let jml_jp = $("#jml_jp").val();
                 tarif_jp = tarif_jp ? parseInt(tarif_jp) : 0;
                 jml_jp = jml_jp ? parseInt(jml_jp) : 0;
-               
+                
                 let jml_bruto = parseInt(jml_jp) * parseInt(tarif_jp);
                 $("#jumlah_bruto").val(parseInt(jml_bruto, 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             }
 
             $("#tarif_jp").on('change', calculateJumlahBruto);
             $("#jml_jp").on('input', calculateJumlahBruto);
+        
+            $("#is_new").on('change', function(){
+                if(this.checked){
+                    $(".is_select").addClass('hidden');
+                    $(".is_input").removeClass('hidden');
+                    $('.is_select').select2('destroy');
+                }else{
+                    $(".is_input").addClass('hidden');
+                    $(".is_select").removeClass('hidden');
+                    $('.is_select').select2();
+                }
+            });
         });
     </script>
 @endpush

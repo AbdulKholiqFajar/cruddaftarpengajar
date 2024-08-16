@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\Models\Pelatihan;
 use App\Models\Golongan;
 use App\Models\Pengajar;
@@ -19,16 +20,26 @@ class PelatihanController extends Controller
     public function index(Request $request)
     {
         $query = Pelatihan::with(['golongan','mata_pelatihan','pengajar']);
-        
-        if ($request->has('start_date') && $request->has('end_date')) {
+        $masterPelatihan = $query->get()->groupBy('title')->keys()->toArray();
+        $data = $request->all();
+        if ($request->start_date && $request->end_date) {
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
             
             $query->whereBetween('tanggal', [$startDate, $endDate]);
         }
-        
-        $pelatihan = $query->get();
-        return view('pelatihan.index', compact('pelatihan'));
+        $pelatihan = null;
+        $pelatihanArr = collect();
+        $grouppelatihan =collect();
+        $where =[];
+        if($request->title){
+            $where['title'] = $request->title;
+            $pelatihan = $query->where($where)->first();
+            $pelatihanArr = Pelatihan::where('title', $pelatihan?->title)->get();
+            $grouppelatihan = $pelatihanArr->groupBy('title');
+        }
+        // dd($pelatihan);
+        return view('pelatihan.index', compact('pelatihan','masterPelatihan','data','grouppelatihan','pelatihanArr'));
     }
 
     /**
@@ -41,7 +52,8 @@ class PelatihanController extends Controller
         $golongan = Golongan::all();
         $pengajar = Pengajar::all();
         $mataPelatihan = MataPelatihan::all();
-        return view('pelatihan.create', compact('golongan','pengajar','mataPelatihan'));
+        $masterPelatihan = Pelatihan::get()->groupBy('title')->keys()->toArray();
+        return view('pelatihan.create', compact('golongan','pengajar','mataPelatihan','masterPelatihan'));
     }
 
     /**
@@ -53,7 +65,6 @@ class PelatihanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
             'tanggal' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -61,12 +72,12 @@ class PelatihanController extends Controller
             'mapel' => 'required',
             'golongan_id' => 'required|integer|exists:golongan,nama',
             'jml_jp' => 'required',
-            'tarif_jp' => 'required|numeric',
-            'jumlah_bruto' => 'required',
+            'tarif_jp' => 'nullable',
+            'jumlah_bruto' => 'nullable',
         ]);
-
+        $title = $request->is_new ? $request->title_input : $request->title_select;
         $data = [
-            'title' => $request->title,
+            'title' => $title,
             'tanggal' => $request->tanggal,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
@@ -74,12 +85,12 @@ class PelatihanController extends Controller
             'mata_pelatihan_id' => $request->mapel,
             'golongan_id' => (int) $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
-            'tarif_jp' => str_replace(',', '', $request->tarif_jp),
-            'jumlah_bruto' => str_replace(',', '', $request->jumlah_bruto),
+            'tarif_jp' => $request->tarif_jp ? str_replace(',', '', $request->tarif_jp): 0,
+            'jumlah_bruto' => $request->jumlah_bruto ? str_replace(',', '', $request->jumlah_bruto) : 0,
         ];
         pelatihan::create($data);
 
-        return redirect()->route('pelatihan.index')->with('success', 'Data berhasil disimpan.');
+        return redirect()->route('pelatihan.index', ['title' => $title])->with('success', 'Data berhasil disimpan.');
     }
 
     /**
@@ -109,7 +120,9 @@ class PelatihanController extends Controller
         $golongan = Golongan::all();
         $pengajar = Pengajar::all();
         $mataPelatihan = MataPelatihan::all();
-        return view('pelatihan.edit', compact('pelatihan', 'golongan','pengajar','mataPelatihan'));
+        $isPetugas = Auth::user()->hasRole('petugas_satker');
+        $masterPelatihan = Pelatihan::get()->groupBy('title')->keys()->toArray();
+        return view('pelatihan.edit', compact('pelatihan', 'golongan','pengajar','mataPelatihan','isPetugas','masterPelatihan'));
     }
 
     /**
@@ -130,8 +143,8 @@ class PelatihanController extends Controller
             'mapel' => 'required',
             'golongan_id' => 'required|integer|exists:golongan,nama',
             'jml_jp' => 'required',
-            'tarif_jp' => 'required',
-            'jumlah_bruto' => 'required',
+            'tarif_jp' => 'nullable',
+            'jumlah_bruto' => 'nullable',
         ]);
 
         $data = [
@@ -143,13 +156,13 @@ class PelatihanController extends Controller
             'mata_pelatihan_id' => $request->mapel,
             'golongan_id' => (int) $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
-            'tarif_jp' => str_replace(',', '', $request->tarif_jp),
-            'jumlah_bruto' => str_replace(',', '', $request->jumlah_bruto),
+            'tarif_jp' => $request->tarif_jp ? str_replace(',', '', $request->tarif_jp): 0,
+            'jumlah_bruto' => $request->jumlah_bruto ? str_replace(',', '', $request->jumlah_bruto) : 0,
         ];
         $pelatihan = Pelatihan::findOrFail($id);
         $pelatihan->update($data);
 
-        return redirect()->route('pelatihan.index')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('pelatihan.index', ['title' => $pelatihan->title])->with('success', 'Data berhasil diperbarui.');
     }
 
     /**

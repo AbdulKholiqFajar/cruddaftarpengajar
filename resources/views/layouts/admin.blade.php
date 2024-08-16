@@ -24,7 +24,7 @@
 
     <!-- Summernote JS -->
     
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Custom CSS -->
     <style>
@@ -32,6 +32,17 @@
         .btn .fa {
             text-shadow: none; /* Menghapus bayangan teks dari ikon */
         }
+        .readonly{
+            pointer-events: none;
+        }
+        .hidden{
+            display: none;
+        }
+
+        .select2-container .select2-selection--single {
+        height: 36px !important;
+    }
+
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -59,6 +70,9 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-none d-sm-inline-block ">
+                <h5 class="nav-link bold">{{Auth::user()->name.' - '.Ucfirst(Auth::user()->roles->pluck('name')[0] ?? '-')}}</h5>
+            </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout
@@ -98,16 +112,55 @@
                             </p>
                         </a>
                     </li>
+                    @can('user-management')
+                        <li class="nav-item  {{ (request()->is('user_management*')) ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ (request()->is('user_management*')) ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    User Management
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                @can('user-list')
+                                    <li class="nav-item">
+                                        <a href="{{route('user.index')}}" class="nav-link {{ (request()->is('user_management/user*')) ? 'active' : '' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>User</p>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('role-list')
+                                    <li class="nav-item">
+                                        <a href="{{route('role.index')}}" class="nav-link {{ (request()->is('user_management/role*')) ? 'active' : '' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Role</p>
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('permission-list')
+                                <li class="nav-item">
+                                    <a href="{{route('permission.index')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Permission</p>
+                                    </a>
+                                </li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
+                    @can('pengajar-list')
                     <li class="nav-item">
                         <a href="{{ route('pengajar.index') }}"
                         class="nav-link {{ (request()->is('pengajar*')) ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-users"></i>
+                            <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Pengajar
                             </p>
                         </a>
                     </li>
-
+                    @endcan
+                    @can('mata-pelatihan-list')
                     <li class="nav-item">
                         <a href="{{ route('mata_pelatihans.index') }}"
                            class="nav-link {{ (request()->is('mata_pelatihans*')) ? 'active' : '' }}">
@@ -117,7 +170,8 @@
                             </p>
                         </a>
                     </li>
-                   
+                    @endcan
+                    @can('pelatihan-list')
                     <li class="nav-item">
                         <a href="{{ route('pelatihan.index') }}"
                            class="nav-link {{ (request()->is('pelatihan*')) ? 'active' : '' }}">
@@ -127,7 +181,8 @@
                             </p>
                         </a>
                     </li>
-
+                    @endcan
+                    @can('surat-keputusan-list')
                     <li class="nav-item">
                         <a href="{{ route('sk.index') }}"
                            class="nav-link {{ (request()->is('sk*')) ? 'active' : '' }}">
@@ -137,7 +192,7 @@
                             </p>
                         </a>
                     </li>
-                    
+                    @endcan
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -200,9 +255,12 @@
 
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('.select2').select2({
+          
+        });
         $(".currency").on("keyup", function() {
             value = $(this).val().replace(/,/g, '');
             if (!$.isNumeric(value) || value == NaN) {
@@ -211,6 +269,7 @@
             }
             $(this).val(parseFloat(value, 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
         });
+       
     });
 </script>
 @stack('scripts')

@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserManagement\PermissionController;
+use App\Http\Controllers\UserManagement\RoleController;
+use App\Http\Controllers\UserManagement\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::group(['prefix'=>'user_management',], function(){
+        Route::resource('user', UserController::class)->except(['create','edit']);
+        Route::resource('role', RoleController::class)->except(['create','edit']);
+        Route::resource('permission', PermissionController::class)->except(['create','edit']);
+    });
+
     Route::resource('pengajar', \App\Http\Controllers\PengajarController::class);
     Route::resource('mata_pelatihans', \App\Http\Controllers\MataPelatihanController::class);
     Route::resource('pelatihan', \App\Http\Controllers\PelatihanController::class);

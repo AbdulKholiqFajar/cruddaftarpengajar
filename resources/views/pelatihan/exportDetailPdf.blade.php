@@ -107,7 +107,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th colspan="10">{{$title}}</th>
+                            <th colspan="10">{{strtoupper($title)}}</th>
                         </tr>
                         <tr>
                             <th class="col-no">NO</th>

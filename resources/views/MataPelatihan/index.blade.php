@@ -14,8 +14,10 @@
                 <!-- Card Body -->
                 <div class="card-header">
                     <h3 class="card-title mb-3">
+                        @can('mata-pelatihan-create')
                             <a href="{{ route('mata_pelatihans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
                             {{-- <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a> --}}
+                        @endcan
                     </h3>
                    
                     <div class="table-responsive">
@@ -34,10 +36,14 @@
                                         <td>{{ $item->jml_jp }}</td>
                                         <td>
                                             <a href="{{ route('mata_pelatihans.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
-                                            <a href="{{ route('mata_pelatihans.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                            <button type="button" class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                            @can('mata-pelatihan-edit')
+                                                <a href="{{ route('mata_pelatihans.edit', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+                                            @endcan
+                                            @can('mata-pelatihan-delete')
+                                                <button type="button" class="btn btn-danger btn-sm delete" data-id="{{ $item->id }}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @empty

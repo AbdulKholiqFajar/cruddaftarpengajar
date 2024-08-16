@@ -14,9 +14,13 @@
                         <a href="{{ route('pelatihan.index') }}" class="btn btn-secondary btn-sm">
                             <i class="fa fa-arrow-left"></i> Kembali
                         </a>
+
+                        @can('penyelenggara-export')
                         <a href="{{ route('export.surat.pdf', ['title' => $pelatihan->title]) }}" class="btn btn-danger btn-sm ml-3">
                             <i class="fa fa-file-pdf"></i> Export PDF
                         </a>
+                        @endcan
+                        
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -27,7 +31,7 @@
                                 <table class="table table-bordered text-center">
                                     <thead>
                                         <tr>
-                                            <th colspan="9">{{$pelatihan->title}}</th>
+                                            <th colspan="9">{{strtoupper($pelatihan->title)}}</th>
                                         </tr>
                                         <tr>
                                             <th>Tanggal</th>
