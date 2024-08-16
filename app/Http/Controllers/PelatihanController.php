@@ -20,7 +20,7 @@ class PelatihanController extends Controller
     public function index(Request $request)
     {
         $query = Pelatihan::with(['golongan','mata_pelatihan','pengajar']);
-        $masterPelatihan = $query->get()->groupBy('title')->keys()->toArray();
+        $masterPelatihan = Pelatihan::get()->groupBy('title')->keys()->toArray();
         $data = $request->all();
         if ($request->start_date && $request->end_date) {
             $startDate = $request->input('start_date');
@@ -34,8 +34,8 @@ class PelatihanController extends Controller
         $where =[];
         if($request->title){
             $where['title'] = $request->title;
-            $pelatihan = $query->where($where)->first();
-            $pelatihanArr = Pelatihan::where('title', $pelatihan?->title)->get();
+            $pelatihan = Pelatihan::where($where)->first();
+            $pelatihanArr = $query->where($where)->get();
             $grouppelatihan = $pelatihanArr->groupBy('title');
         }
         // dd($pelatihan);
@@ -174,9 +174,10 @@ class PelatihanController extends Controller
     public function destroy($id)
     {
         $pelatihan = Pelatihan::findOrFail($id);
+        $title = $pelatihan->title;
         $pelatihan->delete();
 
-        return response()->json(['success' => 'Data berhasil dihapus.']);
+        return redirect()->route('pelatihan.index', ['title' => $title])->with('success', 'Data berhasil dihapus.');
     }
 
     public function updateStatus(Request $request, $id)

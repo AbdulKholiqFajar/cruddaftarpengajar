@@ -19,7 +19,7 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="title">Judul</label>
-                                    <select name="title" id="title" class="form-control select2 is_select {{$isPetugas ? 'readonly' : ''}}"">
+                                    <select name="title" id="title" class="form-control  is_select {{$isPetugas ? 'readonly' : 'select2'}}">
                                         <option value="">Pilih Judul</option>
                                         @foreach($masterPelatihan as $item)
                                             <option value="{{ $item }}" {{ $pelatihan->title == $item ? 'selected' : '' }}>{{ strtoupper($item)  }}</option>

@@ -34,14 +34,18 @@
         }
         .readonly{
             pointer-events: none;
+            background-color: #e9ecef;
+            opacity: 1;
+            cursor: not-allowed;
+            
         }
         .hidden{
             display: none;
         }
 
         .select2-container .select2-selection--single {
-        height: 36px !important;
-    }
+            height: 36px !important;
+        }
 
     </style>
 </head>
