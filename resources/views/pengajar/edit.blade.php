@@ -85,18 +85,6 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="pajak">Pajak</label>
-                                    <input type="text" id="pajak" name="pajak" class="form-control @error('pajak') is-invalid @enderror" placeholder="Pajak" value="{{ old('pajak', number_format($pengajar->pajak, 0, ',', '.')) }}">
-                                    @error('pajak')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="form-group">
                                     <label for="alamat">Alamat</label>
                                     <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat" placeholder="Alamat" value="{{ old('alamat', $pengajar->alamat) }}">
                                     @error('alamat')
@@ -134,26 +122,22 @@ $(document).ready(function () {
         input.value = value;
     }
 
-    $("#honor, #pajak").on('input', function () {
+    $("#honor").on('input', function () {
         formatNumber(this);
     });
 
     $("form").on('submit', function () {
         unformatNumber($("#honor")[0]);
-        unformatNumber($("#pajak")[0]);
     });
 
     function setInitialValues() {
         let honorInput = $("#honor")[0];
-        let pajakInput = $("#pajak")[0];
 
         // Unformat values to ensure they are in the correct format for input
         unformatNumber(honorInput);
-        unformatNumber(pajakInput);
 
         // Reapply format after unformatting
         formatNumber(honorInput);
-        formatNumber(pajakInput);
     }
 
     setInitialValues();

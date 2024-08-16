@@ -12,7 +12,6 @@ class MataPelatihan extends Model
     protected $table = 'mata_pelatihans';
 
     protected $fillable = [
-        'kode_mapel', 
         'mata_pelatihan',
         'jml_jp',
     ];

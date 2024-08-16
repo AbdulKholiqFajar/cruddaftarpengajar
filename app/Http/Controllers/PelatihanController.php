@@ -107,7 +107,7 @@ class PelatihanController extends Controller
     {
         $pelatihan = Pelatihan::findOrFail($id);
         $golongan = Golongan::all();
-        $pengajar = PengajarController::all();
+        $pengajar = Pengajar::all();
         $mataPelatihan = MataPelatihan::all();
         return view('pelatihan.edit', compact('pelatihan', 'golongan','pengajar','mataPelatihan'));
     }

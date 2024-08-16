@@ -17,7 +17,6 @@ class Pengajar extends Model
         'jabatan',
         'golongan_id',
         'honor',
-        'pajak',
         'alamat',
     ];
 

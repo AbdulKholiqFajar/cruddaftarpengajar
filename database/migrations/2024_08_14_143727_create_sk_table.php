@@ -17,7 +17,6 @@ class CreateSkTable extends Migration
             $table->id();
             $table->string('nomor_sk')->unique();
             $table->date('tanggal_sk');
-            $table->year('tahun');
             $table->longText('tentang');            // Menggunakan longText untuk mendukung konten HTML
             $table->longText('menimbang');          // Menggunakan longText untuk mendukung konten HTML
             $table->longText('mengingat');          // Menggunakan longText untuk mendukung konten HTML

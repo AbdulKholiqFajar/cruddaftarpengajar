@@ -17,21 +17,16 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="tanggal_sk">Tanggal SK</label>
-                                <input type="date" name="tanggal_sk" class="form-control @error('tanggal_sk') is-invalid @enderror" id="tanggal_sk" value="{{ old('tanggal_sk') }}" required>
-                                @error('tanggal_sk')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <label for="nomor_sk">Nomor SK</label>
+                                <input type="text" name="nomor_sk" class="form-control" id="nomor_sk" value="{{ old('nomor_sk', '0/KPTS-SATKER/Mm/' . date('Y')) }}" readonly>
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="tahun">Tahun</label>
-                                <input type="number" name="tahun" class="form-control @error('tahun') is-invalid @enderror" id="tahun" value="{{ old('tahun') }}" required>
-                                @error('tahun')
+                                <label for="tanggal_sk">Tanggal SK</label>
+                                <input type="date" name="tanggal_sk" class="form-control @error('tanggal_sk') is-invalid @enderror" id="tanggal_sk" value="{{ old('tanggal_sk') }}" required>
+                                @error('tanggal_sk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -77,6 +72,18 @@
 
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <label for="memperhatikan">Memperhatikan</label>
+                                <textarea id="memperhatikan" name="memperhatikan" class="form-control summernote">{{ old('memperhatikan') }}</textarea>
+                                @error('memperhatikan')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
                                 <label for="menetapkan">Menetapkan</label>
                                 <textarea id="menetapkan" name="menetapkan" class="form-control summernote">{{ old('menetapkan') }}</textarea>
                                 @error('menetapkan')
@@ -99,7 +106,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
+                        {{-- <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="isi">Isi</label>
                                 <textarea id="isi" name="isi" class="form-control summernote">{{ old('isi') }}</textarea>
@@ -110,7 +117,7 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Buttons -->
                     <div class="form-group">
@@ -131,8 +138,25 @@
             height: 300,   // Set height of editor
             minHeight: null,  // Set minimum height of editor
             maxHeight: null,  // Set maximum height of editor
-            focus: true,   // Set focus to editable area after initializing summernote
+            focus: true, 
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+          // Set focus to editable area after initializing summernote
         });
+        $('#tentang').summernote('code', `{!! $defaultTentang!!}`);
+        $('#menimbang').summernote('code', `{!! $defaultMenimbang !!}`);
+        $('#mengingat').summernote('code', `{!! $defaultMengingat !!}`);
+        $('#memperhatikan').summernote('code', `{!! $defaultMemperhatikan !!}`);
+        $('#menetapkan').summernote('code', `{!! $defaultMenetapkan !!}`);
+        $('#tembusan').summernote('code', `{!! $defaultTembusan !!}`);
     });
 </script>
 @endpush

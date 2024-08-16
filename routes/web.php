@@ -13,13 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('layouts.admin');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
@@ -38,7 +31,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mata_pelatihan/{id}', [\App\Http\Controllers\MataPelatihanController::class, 'getJumlahJP']);
     
     Route::put('/pelatihan/{id}/status', [\App\Http\Controllers\PelatihanController::class, 'updateStatus'])->name('pelatihan.updateStatus');
-
 });
 
 

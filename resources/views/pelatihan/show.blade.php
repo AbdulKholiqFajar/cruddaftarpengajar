@@ -33,8 +33,8 @@
                                             <th>Tanggal</th>
                                             <th>Waktu</th>
                                             <th>JP</th>
-                                            <th>Nama</th>
                                             <th>Mata Pelatihan</th>
+                                            <th>Nama Pengajar</th>
                                             <th>Gol</th>
                                             <th>JUMLAH JP</th>
                                             <th>TARIF JP</th>
@@ -54,8 +54,8 @@
                                                     <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
                                                     <td>{{ number_format($item->jml_jp) }}</td>
-                                                    <td>{{ $item->pengajar?->nama_pengajar }}</td>
                                                     <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
+                                                    <td>{{ $item->pengajar?->nama_pengajar }}</td>
                                                     <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
                                                     <td>{{ number_format($item->jml_jp) }}</td>
                                                     <td>{{ number_format($item->tarif_jp) }}</td>

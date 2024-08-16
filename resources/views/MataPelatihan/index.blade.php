@@ -22,7 +22,6 @@
                         <table id="mataPelatihanTable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Kode Mata Pelatihan</th>
                                     <th>Mata Pelatihan</th>
                                     <th>Jumlah JP</th>
                                     <th>Aksi</th>
@@ -31,7 +30,6 @@
                             <tbody>
                                 @forelse($mata_pelatihans as $item)
                                     <tr>
-                                        <td>{{ $item->kode_mapel }}</td>
                                         <td>{{ $item->mata_pelatihan }}</td>
                                         <td>{{ $item->jml_jp }}</td>
                                         <td>

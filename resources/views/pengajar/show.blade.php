@@ -40,10 +40,6 @@
                                 <p id="honor">{{ number_format($pengajar->honor) }}</p>
                             </div>
                             <div class="form-group">
-                                <label for="pajak">Pajak:</label>
-                                <p id="pajak">{{ number_format($pengajar->pajak) }}</p>
-                            </div>
-                            <div class="form-group">
                                 <label for="alamat">Alamat:</label>
                                 <p id="alamat">{{ $pengajar->alamat }}</p>
                             </div>

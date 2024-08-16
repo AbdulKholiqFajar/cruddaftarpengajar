@@ -37,13 +37,11 @@ class MataPelatihanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_mapel' => 'required|string|max:10|unique:mata_pelatihans',
             'mata_pelatihan' => 'required|string|max:255',
             'jml_jp' => 'required|numeric|min:1',
         ]);
 
         MataPelatihan::create([
-            'kode_mapel' => $request->kode_mapel,
             'mata_pelatihan' => $request->mata_pelatihan,
             'jml_jp' => $request->jml_jp,
         ]);
@@ -85,14 +83,12 @@ class MataPelatihanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'kode_mapel' => 'required|string|max:10|unique:mata_pelatihans,kode_mapel,' . $id,
             'mata_pelatihan' => 'required|string|max:255',
             'jml_jp' => 'required|numeric|min:1',
         ]);
 
         $mata_pelatihan = MataPelatihan::findOrFail($id);
         $mata_pelatihan->update([
-            'kode_mapel' => $request->kode_mapel,
             'mata_pelatihan' => $request->mata_pelatihan,
             'jml_jp' => $request->jml_jp,
         ]);

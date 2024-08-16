@@ -52,7 +52,6 @@ class PengajarController extends Controller
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
             'honor' => ['required', 'string'],
-            'pajak' => ['required', 'string'],
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 
@@ -108,7 +107,6 @@ class PengajarController extends Controller
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
             'honor' => ['required', 'string'],
-            'pajak' => ['required', 'string'],
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 

@@ -34,7 +34,7 @@
         <div class="small-box bg-warning">
             <div class="inner">
             <h3>{{$pelatihanCount}}</h3>
-            <p>Total Surat Pelatihan</p>
+            <p>Total Lampiran</p>
             </div>
             <div class="icon">
                 <i class="fa fa-file"></i>

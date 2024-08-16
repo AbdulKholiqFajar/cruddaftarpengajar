@@ -17,15 +17,6 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <label for="kode_mapel">Kode Mata Pelatihan</label>
-                            <input type="text" id="kode_mapel" name="kode_mapel" class="form-control @error('kode_mapel') is-invalid @enderror" value="{{ old('kode_mapel', $mata_pelatihan->kode_mapel) }}" required>
-                            @error('kode_mapel')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="mata_pelatihan">Mata Pelatihan</label>
                             <input type="text" id="mata_pelatihan" name="mata_pelatihan" class="form-control @error('mata_pelatihan') is-invalid @enderror" value="{{ old('mata_pelatihan', $mata_pelatihan->mata_pelatihan) }}" required>
                             @error('mata_pelatihan')

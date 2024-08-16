@@ -17,7 +17,22 @@ class SkController extends Controller
     // Menampilkan formulir pembuatan SK baru
     public function create()
     {
-        return view('suratkeputusan.create');
+        $defaultTentang = file_get_contents(storage_path('app/default_content/tentang.html'));
+        $defaultMenimbang = file_get_contents(storage_path('app/default_content/menimbang.html'));
+        $defaultMengingat = file_get_contents(storage_path('app/default_content/mengingat.html'));
+        $defaultMemperhatikan = file_get_contents(storage_path('app/default_content/memperhatikan.html'));
+        $defaultMenetapkan = file_get_contents(storage_path('app/default_content/menetapkan.html'));
+        $defaultTembusan = file_get_contents(storage_path('app/default_content/tembusan.html'));
+        return view('suratkeputusan.create', [
+            'defaultTentang' => $defaultTentang,
+            'defaultMenimbang' => $defaultMenimbang,
+            'defaultMengingat' => $defaultMengingat,
+            'defaultMemperhatikan' => $defaultMemperhatikan,
+            'defaultMenetapkan' => $defaultMenetapkan,
+            'defaultTembusan' => $defaultTembusan,
+
+        ]);
+        
     }
 
     // Menyimpan data SK baru
@@ -26,18 +41,17 @@ class SkController extends Controller
         $request->validate([
             'nomor_sk' => 'required|string|max:255|unique:sk',
             'tanggal_sk' => 'required|date',
-            'tahun' => 'required|integer',
             'tentang' => 'required',
             'menimbang' => 'required',
             'mengingat' => 'required',
+            'memperhatikan' => 'required',
             'menetapkan' => 'required',
             'tembusan' => 'required',
-            'isi' => 'required',
         ]);
 
         Sk::create($request->all());
 
-        return redirect()->route('suratkeputusan.index')->with('success', 'SK berhasil dibuat.');
+        return redirect()->route('sk.index')->with('success', 'SK berhasil dibuat.');
     }
 
     // Menampilkan detail SK
@@ -51,7 +65,7 @@ class SkController extends Controller
     public function edit($id)
     {
         $sk = Sk::findOrFail($id);
-        return view('sk.edit', compact('sk'));
+        return view('suratkeputusan.edit', compact('sk'));
     }
 
     // Memperbarui data SK
@@ -60,19 +74,18 @@ class SkController extends Controller
         $request->validate([
             'nomor_sk' => 'required|string|max:255|unique:sk,nomor_sk,' . $id,
             'tanggal_sk' => 'required|date',
-            'tahun' => 'required|integer',
             'tentang' => 'required',
             'menimbang' => 'required',
             'mengingat' => 'required',
+            'memperhatikan' => 'required',
             'menetapkan' => 'required',
             'tembusan' => 'required',
-            'isi' => 'required',
         ]);
 
         $sk = Sk::findOrFail($id);
         $sk->update($request->all());
 
-        return redirect()->route('suratkeputusan.index')->with('success', 'SK berhasil diperbarui.');
+        return redirect()->route('sk.index')->with('success', 'SK berhasil diperbarui.');
     }
 
     // Menghapus data SK
@@ -81,6 +94,6 @@ class SkController extends Controller
         $sk = Sk::findOrFail($id);
         $sk->delete();
 
-        return redirect()->route('suratkeputusan.index')->with('success', 'SK berhasil dihapus.');
+        return redirect()->route('sk.index')->with('success', 'SK berhasil dihapus.');
     }
 }

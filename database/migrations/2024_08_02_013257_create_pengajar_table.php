@@ -19,8 +19,7 @@ class CreatePengajarTable extends Migration
             $table->string('nama_pengajar');
             $table->string('jabatan');
             $table->foreignId('golongan_id')->constrained('golongan')->onDelete('cascade');
-            $table->decimal('jp', 10, 2);
-            $table->decimal('pajak', 10, 2)->nullable();
+            $table->decimal('honor', 10, 2);
             $table->text('alamat')->nullable();
             $table->timestamps();
         });

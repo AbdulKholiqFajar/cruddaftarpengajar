@@ -19,18 +19,16 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="kode_mapel">Kode Mata Pelatihan:</label>
-                                <p id="kode_mapel">{{ $mata_pelatihan->kode_mapel }}</p>
-                            </div>
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="mata_pelatihan">Mata Pelatihan:</label>
-                                <p id="mata_pelatihan">{{ $mata_pelatihan->mata_pelatihan }}</p>
+                                <p id="mata_pelatihan" class="form-control-plaintext">{{ $mata_pelatihan->mata_pelatihan }}</p>
                             </div>
+                        </div>
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="jml_jp">Jumlah JP:</label>
-                                <p id="jml_jp">{{ $mata_pelatihan->jml_jp }}</p>
+                                <p id="jml_jp" class="form-control-plaintext">{{ $mata_pelatihan->jml_jp }}</p>
                             </div>
                         </div>
                     </div>
@@ -40,4 +38,4 @@
             <!-- /.card -->
         </div>
     </div>
-@endsection
+@endsection 

@@ -28,7 +28,6 @@
                                     <th>Jabatan</th>
                                     <th>Golongan</th>
                                     <th>Tarif JP</th>
-                                    <th>Pajak</th>
                                     <th>Alamat</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -41,7 +40,6 @@
                                         <td>{{ $item->jabatan }}</td>
                                         <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
                                         <td>{{ number_format($item->honor) }}</td>
-                                        <td>{{ number_format($item->pajak) }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>
                                             <a href="{{ route('pengajar.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>

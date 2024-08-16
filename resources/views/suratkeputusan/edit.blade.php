@@ -18,21 +18,16 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="tanggal_sk">Tanggal SK</label>
-                                <input type="date" name="tanggal_sk" class="form-control @error('tanggal_sk') is-invalid @enderror" id="tanggal_sk" value="{{ old('tanggal_sk', $sk->tanggal_sk) }}" required>
-                                @error('tanggal_sk')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <label for="nomor_sk">Nomor SK</label>
+                                <input type="text" name="nomor_sk" class="form-control" id="nomor_sk" value="{{ old('nomor_sk', $sk->nomor_sk) }}" readonly>
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="tahun">Tahun</label>
-                                <input type="number" name="tahun" class="form-control @error('tahun') is-invalid @enderror" id="tahun" value="{{ old('tahun', $sk->tahun) }}" required>
-                                @error('tahun')
+                                <label for="tanggal_sk">Tanggal SK</label>
+                                <input type="date" name="tanggal_sk" class="form-control @error('tanggal_sk') is-invalid @enderror" id="tanggal_sk" value="{{ old('tanggal_sk', $sk->tanggal_sk->format('Y-m-d')) }}" required>
+                                @error('tanggal_sk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -100,19 +95,6 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label for="isi">Isi</label>
-                                <textarea id="isi" name="isi" class="form-control summernote">{{ old('isi', $sk->isi) }}</textarea>
-                                @error('isi')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Buttons -->
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Update</button>
@@ -129,7 +111,20 @@
 <script>
     $(document).ready(function () {
         $('.summernote').summernote({
-            height: 200 // Atur tinggi editor sesuai kebutuhan
+            height: 300,   // Set height of editor
+            minHeight: null,  // Set minimum height of editor
+            maxHeight: null,  // Set maximum height of editor
+            focus: true, 
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]  // Atur tinggi editor sesuai kebutuhan
         });
     });
 </script>

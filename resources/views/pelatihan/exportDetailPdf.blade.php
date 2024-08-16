@@ -114,7 +114,7 @@
                             <th class="col-tanggal">Tanggal</th>
                             <th class="col-waktu">Waktu</th>
                             <th class="col-jml-jp">JP</th>
-                            <th class="col-nama">Nama</th>
+                            <th class="col-nama">Nama Pengajar</th>
                             <th class="col-uraian">Mata Pelatihan</th>
                             <th class="col-gol">Gol</th>
                             <th class="col-jml-jp">JUMLAH JP</th>

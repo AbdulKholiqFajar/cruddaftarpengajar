@@ -51,7 +51,7 @@
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
                                 <th>JP</th>
-                                <th>Nama</th>
+                                <th>Nama Pengajar</th>
                                 <th>Mata Pelatihan</th>
                                 <th>Gol</th>
                                 <th>PETUGAS SK</th>

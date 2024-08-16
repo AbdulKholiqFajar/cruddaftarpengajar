@@ -9,8 +9,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                
-                <a href="{{ route('sk.create') }}" class="btn btn-primary float-right">Tambah SK</a>
+                <a href="{{ route('sk.create') }}" class="btn btn-primary">Buat SK</a>
             </div>
             <div class="card-body">
                 <table class="table table-bordered" id="sk-table">
@@ -19,7 +18,7 @@
                             <th>No</th>
                             <th>Nomor SK</th>
                             <th>Tanggal SK</th>
-                            <th>Tahun</th>
+                            {{-- <th>Tahun</th> --}}
                             {{-- <th>Tentang</th>
                             <th>Menimbang</th>
                             <th>Mengingat</th>
@@ -35,7 +34,7 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $sk->nomor_sk }}</td>
                             <td>{{ $sk->tanggal_sk->format('d-m-Y') }}</td>
-                            <td>{{ $sk->tahun }}</td>
+                            {{-- <td>{{ $sk->tahun }}</td> --}}
                             {{-- <td>{!! Str::limit($sk->tentang, 50) !!}</td>
                             <td>{!! Str::limit($sk->menimbang, 50) !!}</td>
                             <td>{!! Str::limit($sk->mengingat, 50) !!}</td>
