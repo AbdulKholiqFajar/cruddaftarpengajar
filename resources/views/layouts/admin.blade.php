@@ -186,17 +186,6 @@
                         </a>
                     </li>
                     @endcan
-                    @can('surat-keputusan-list')
-                    <li class="nav-item">
-                        <a href="{{ route('sk.index') }}"
-                           class="nav-link {{ (request()->is('sk*')) ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Surat Keputusan
-                            </p>
-                        </a>
-                    </li>
-                    @endcan
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

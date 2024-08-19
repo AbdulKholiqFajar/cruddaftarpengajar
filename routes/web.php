@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pengajar', \App\Http\Controllers\PengajarController::class);
     Route::resource('mata_pelatihans', \App\Http\Controllers\MataPelatihanController::class);
     Route::resource('pelatihan', \App\Http\Controllers\PelatihanController::class);
-    Route::resource('sk', \App\Http\Controllers\SkController::class);
+    // Route::resource('sk', \App\Http\Controllers\SkController::class);
 
     Route::get('/export-excel-pengajar', \App\Http\Controllers\ExportExcelPengajarController::class)->name('export.excel');
     Route::get('/export-pdf-pengajar', \App\Http\Controllers\ExportPdfPengajarController::class)->name('export.pdf.pengajar');

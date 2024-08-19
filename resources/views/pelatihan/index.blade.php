@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    BAPEKOM IV BANDUNG
+    Daftar Pelatihan
 @endsection
 
 @section('content')
