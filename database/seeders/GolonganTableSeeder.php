@@ -16,10 +16,11 @@ class GolonganTableSeeder extends Seeder
     {
         // Data baru yang ingin dimasukkan
         $datas = [
-            1, 
-            2, 
-            3,
-            4, 
+            '-',
+            'I',
+            'II',
+            'III',
+            'IV',
         ];
 
         foreach ($datas as $data) {

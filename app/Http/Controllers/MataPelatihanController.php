@@ -38,7 +38,7 @@ class MataPelatihanController extends Controller
     {
         $request->validate([
             'mata_pelatihan' => 'required|string|max:255',
-            'jml_jp' => 'required|numeric|min:1',
+            'jml_jp' => 'required|numeric|min:0',
         ]);
 
         MataPelatihan::create([
@@ -84,7 +84,7 @@ class MataPelatihanController extends Controller
     {
         $request->validate([
             'mata_pelatihan' => 'required|string|max:255',
-            'jml_jp' => 'required|numeric|min:1',
+            'jml_jp' => 'required|numeric|min:0',
         ]);
 
         $mata_pelatihan = MataPelatihan::findOrFail($id);

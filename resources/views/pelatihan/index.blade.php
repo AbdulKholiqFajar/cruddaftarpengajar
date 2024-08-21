@@ -55,8 +55,6 @@
                                             <a href="{{route('pelatihan.index')}}" class="btn btn-warning waves-effect waves-light" id="btn-reset">Reset</a>
                                             <button type="submit" class="btn btn-primary waves-effect waves-light" id="btn-filter">Filter</button>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -98,14 +96,13 @@
                                             <tr>
                                                 <th>Tanggal</th>
                                                 <th>Waktu</th>
-                                                <th>JP</th>
                                                 <th>Mata Pelatihan</th>
                                                 <th>Nama Pengajar</th>
                                                 <th>Gol</th>
                                                 <th>JUMLAH JP</th>
                                                 <th>TARIF JP</th>
                                                 <th>JUMLAH BRUTO</th>
-                                                <th>Status</th>
+                                                {{-- <th>Status</th> --}}
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -121,14 +118,13 @@
                                                     <tr>
                                                         <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
-                                                        <td>{{ number_format($item->jml_jp) }}</td>
                                                         <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
                                                         <td>{{ $item->pengajar?->nama_pengajar }}</td>
                                                         <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
                                                         <td>{{ number_format($item->jml_jp) }}</td>
                                                         <td>{{ number_format($item->tarif_jp) }}</td>
                                                         <td>{{ number_format($item->jumlah_bruto) }}</td>
-                                                        <td>
+                                                        {{-- <td>
                                                             <form id="status-form-{{ $item->id }}" action="{{ route('pelatihan.updateStatus', $item->id) }}" method="POST" class="status-form">
                                                                 @csrf
                                                                 @method('PUT')
@@ -140,7 +136,7 @@
                                                                     </select>
                                                                 </div>
                                                             </form>
-                                                        </td>
+                                                        </td> --}}
                                                         <td>
                                                             <div class="btn-group">
                                                                 <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -163,7 +159,6 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        
                                                     </tr>
                                                     @php
                                                     $jml_jp += intval($item->jml_jp);
@@ -175,7 +170,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                            <th colspan="6" style="text-align: center;">TOTAL</th>
+                                            <th colspan="5" style="text-align: center;">TOTAL</th>
                                             <th class="col-jml-jp">{{ number_format($jml_jp) }}</th>
                                             <th class="col-tarif-jp">{{ number_format($tarif_jp) }}</th>
                                             <th class="col-jumlah-bruto">{{ number_format($jumlah_bruto) }}</th>

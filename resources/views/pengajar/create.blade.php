@@ -113,6 +113,9 @@
                 input.value = value ? parseFloat(value).toLocaleString() : '';
             }
 
+                function clearFormatting(input) {
+                input.value = input.value.replace(/[^0-9.]/g, '');
+
             $("#honor").on('input', function () {
                 formatNumber(this);
             });

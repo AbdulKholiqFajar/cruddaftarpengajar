@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Keputusan</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         @page {
-            size: A3 landscape; /* Menetapkan ukuran kertas A3 dalam orientasi landscape */
-            margin: 20mm; /* Menambahkan margin jika diperlukan */
+            size: A4 landscape;
+            margin: 20mm;
         }
         body {
             margin: 0;
@@ -40,50 +39,47 @@
             border-collapse: collapse;
         }
         .table th, .table td {
-            padding: 8px; /* Perbesar padding jika diperlukan */
+            padding: 12px;
             text-align: center;
-            border: 1px solid #dee2e6;
+            border: 1px solid #000000; /* Black border for all cells */
+            background-color: #ffffff; /* White background for all cells */
+            color: #000000; /* Black text for all cells */
         }
         .table thead th {
-            background-color: #f8f9fa;
             font-weight: bold;
         }
         .table tbody td {
-            text-align: center;
+            vertical-align: middle;
         }
         .table tfoot td {
-            text-align: center;
+            font-weight: bold;
         }
-        /* Menyesuaikan lebar kolom */
         .col-no {
-            width: 3%; /* Lebar kolom no yang lebih kecil */
+            width: 5%;
         }
         .col-tanggal {
-            width: 12%; /* Lebar kolom tanggal */
+            width: 15%;
         }
         .col-waktu {
-            width: 10%; /* Lebar kolom waktu yang lebih kecil */
+            width: 15%;
         }
         .col-nama {
-            width: 15%; /* Lebar kolom nama */
+            width: 15%;
         }
         .col-uraian {
-            width: 18%; /* Lebar kolom uraian */
+            width: 20%;
         }
         .col-gol {
-            width: 4%; /* Lebar kolom gol yang lebih kecil */
+            width: 10%;
         }
         .col-jml-jp {
-            width: 4%; /* Lebar kolom jml jp yang lebih kecil */
-        }
-        .col-status {
-            width: 10%; /* Lebar kolom status */
+            width: 10%;
         }
         .col-tarif-jp {
-            width: 10%; /* Lebar kolom tarif jp */
+            width: 10%;
         }
         .col-jumlah-bruto {
-            width: 10%; /* Lebar kolom jumlah bruto */
+            width: 10%;
         }
         .footer {
             text-align: center;
@@ -94,77 +90,87 @@
             padding: 10px 0;
             font-size: 14px;
         }
+        .no-date {
+            background-color: #ffffff; /* White background for date cells */
+            vertical-align: middle;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <div class="box">
             <div class="box-header">
-                <center></center>
-                <br>
+                <h6>{{ $title }}</h4>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th colspan="10">{{strtoupper($title)}}</th>
-                        </tr>
-                        <tr>
                             <th class="col-no">NO</th>
-                            <th class="col-tanggal">Tanggal</th>
-                            <th class="col-waktu">Waktu</th>
-                            <th class="col-jml-jp">JP</th>
-                            <th class="col-nama">Nama Pengajar</th>
-                            <th class="col-uraian">Mata Pelatihan</th>
-                            <th class="col-gol">Gol</th>
-                            <th class="col-jml-jp">JUMLAH JP</th>
+                            <th class="col-tanggal">TANGGAL</th>
+                            <th class="col-waktu">WAKTU</th>
+                            <th class="col-nama">NAMA</th>
+                            <th class="col-uraian">URAIAN</th>
+                            <th class="col-gol">GOL</th>
+                            <th class="col-jml-jp">JML JP</th>
                             <th class="col-tarif-jp">TARIF JP</th>
                             <th class="col-jumlah-bruto">JUMLAH BRUTO</th>
                         </tr>
                     </thead>
                     <tbody>
                         @php
-                        $no = 1; // Mulai dari 1
-                        $jml_jp = 0;
-                        $tarif_jp = 0;
-                        $jumlah_bruto = 0;
+                            $no = 0;
+                            $totalJmlJp = 0;
+                            $totalTarifJp = 0;
+                            $totalJumlahBruto = 0;
                         @endphp
-                        @foreach ($groupPelatihan as $title => $items)
-                            @foreach ($items as $item)
-                                <tr>
-                                    <td class="col-no">{{ $no++ }}</td> <!-- Increment variabel $no -->
-                                    <td class="col-tanggal">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
-                                    <td class="col-waktu">{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
-                                    <td class="col-jml-jp">{{ number_format($item->jml_jp) }}</td>
-                                    <td class="col-nama">{{ $item->pengajar?->nama_pengajar }}</td>
-                                    <td class="col-uraian">{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
-                                    <td class="col-gol">{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
-                                    <td class="col-jml-jp">{{ number_format($item->jml_jp) }}</td>
-                                    <td class="col-tarif-jp">{{ number_format($item->tarif_jp) }}</td>
-                                    <td class="col-jumlah-bruto">{{ number_format($item->jumlah_bruto) }}</td>
-                                </tr>
+                        @foreach ($groupPelatihan as $tanggal => $pelatihans)
+                            @php
+                                $pelatihans = $pelatihans->sortBy('start_time');
+                                $tanggalFormatted = \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y');
+                            @endphp
+                            @foreach ($pelatihans as $item)
                                 @php
-                                    $jml_jp += intval($item->jml_jp);
-                                    $tarif_jp += intval($item->tarif_jp);
-                                    $jumlah_bruto += intval($item->jumlah_bruto);
+                                    $no++;
+                                    $totalJmlJp += floatval($item->jml_jp);
+                                    $totalTarifJp += floatval($item->tarif_jp);
+                                    $totalJumlahBruto += floatval($item->jumlah_bruto);
                                 @endphp
+                                <tr>
+                                    @if ($loop->first)
+                                        <td>{{ $no }}</td>
+                                        <td rowspan="{{ count($pelatihans) }}" class="no-date">
+                                            {{ $tanggalFormatted }}
+                                        </td>
+                                    @else
+                                        <td>{{ $no }}</td>
+                                    @endif
+                                    <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
+                                    <td>{{ $item->pengajar?->nama_pengajar }}</td>
+                                    <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
+                                    <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
+                                    <td>{{ rtrim(number_format(floatval($item->jml_jp), 0, '', ','), ',') }}</td>
+                                    <td>{{ rtrim(number_format(floatval($item->tarif_jp), 0, '', ','), ',') }}</td>
+                                    <td>{{ rtrim(number_format(floatval($item->jumlah_bruto), 0, '', ','), ',') }}</td>
+                                </tr>
                             @endforeach
                         @endforeach
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="7" style="text-align: center;">TOTAL</th>
-                            <th class="col-jml-jp">{{ number_format($jml_jp) }}</th>
-                            <th class="col-tarif-jp">{{ number_format($tarif_jp) }}</th>
-                            <th class="col-jumlah-bruto">{{ number_format($jumlah_bruto) }}</th>
+                            <th colspan="6" style="text-align: center;">TOTAL</th>
+                            <th class="col-jml-jp">{{ rtrim(number_format($totalJmlJp, 0, '', ','), ',') }}</th>
+                            <th class="col-tarif-jp">{{ rtrim(number_format($totalTarifJp, 0, '', ','), ',') }}</th>
+                            <th class="col-jumlah-bruto">{{ rtrim(number_format($totalJumlahBruto, 0, '', ','), ',') }}</th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
-    <footer class="footer">
+    {{-- <footer class="footer">
         <span class="blockquote-footer">Printed by BAPEKOM IV BANDUNG</span>
-    </footer>
+    </footer> --}}
 </body>
 </html>

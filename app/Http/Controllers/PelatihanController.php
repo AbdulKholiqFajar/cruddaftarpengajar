@@ -70,7 +70,7 @@ class PelatihanController extends Controller
             'end_time' => 'required',
             'nama_pengajar' => 'required',
             'mapel' => 'required',
-            'golongan_id' => 'required|integer|exists:golongan,nama',
+            'golongan_id' => 'required|exists:golongan,nama',
             'jml_jp' => 'required',
             'tarif_jp' => 'nullable',
             'jumlah_bruto' => 'nullable',
@@ -83,7 +83,7 @@ class PelatihanController extends Controller
             'end_time' => $request->end_time,
             'pengajar_id' => $request->nama_pengajar,
             'mata_pelatihan_id' => $request->mapel,
-            'golongan_id' => (int) $request->golongan_id,
+            'golongan_id' => $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
             'tarif_jp' => $request->tarif_jp ? str_replace(',', '', $request->tarif_jp): 0,
             'jumlah_bruto' => $request->jumlah_bruto ? str_replace(',', '', $request->jumlah_bruto) : 0,
@@ -141,7 +141,7 @@ class PelatihanController extends Controller
             'end_time' => 'required',
             'nama_pengajar' => 'required',
             'mapel' => 'required',
-            'golongan_id' => 'required|integer|exists:golongan,nama',
+            'golongan_id' => 'required|exists:golongan,nama',
             'jml_jp' => 'required',
             'tarif_jp' => 'nullable',
             'jumlah_bruto' => 'nullable',
@@ -154,7 +154,7 @@ class PelatihanController extends Controller
             'end_time' => $request->end_time,
             'pengajar_id' => $request->nama_pengajar,
             'mata_pelatihan_id' => $request->mapel,
-            'golongan_id' => (int) $request->golongan_id,
+            'golongan_id' => $request->golongan_id,
             'jml_jp' => str_replace(',', '', $request->jml_jp),
             'tarif_jp' => $request->tarif_jp ? str_replace(',', '', $request->tarif_jp): 0,
             'jumlah_bruto' => $request->jumlah_bruto ? str_replace(',', '', $request->jumlah_bruto) : 0,
@@ -197,12 +197,17 @@ class PelatihanController extends Controller
     }
 
     public function exportPdf(Request $request){
+
         $pelatihanArr = Pelatihan::where('title', $request->title)->get();
-        $groupPelatihan = $pelatihanArr->groupBy('title');
+        $groupPelatihan = $pelatihanArr->groupBy(function($date) {
+        return \Carbon\Carbon::parse($date->tanggal)->format('Y-m-d'); // Format tanggal sesuai kebutuhan
+    });
+
         $pdf = pdf::loadview('pelatihan.exportDetailPdf', [
-            'groupPelatihan' => $groupPelatihan,
-            'title' =>  $request->title,
-        ])->setPaper('F4', 'landscape');
-        return $pdf->stream();
+        'groupPelatihan' => $groupPelatihan,
+        'title' =>  $request->title,
+    ])->setPaper('A3', 'landscape');
+    
+    return $pdf->stream();
     }
 }

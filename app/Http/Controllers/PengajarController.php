@@ -17,7 +17,7 @@ class PengajarController extends Controller
     public function index()
     {
         return view('pengajar.index', [
-            'pengajar' => Pengajar::paginate(10),
+            'pengajar' => Pengajar::paginate(100),
         ]);
 
         $pengajar = Pengajar::with('golongan')->get(); 
@@ -51,7 +51,7 @@ class PengajarController extends Controller
             'nama_pengajar' => ['required', 'string', 'max:255'],
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
-            'honor' => ['required', 'string'],
+            'honor' => ['required', 'numeric'],
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 
@@ -106,7 +106,7 @@ class PengajarController extends Controller
             'nama_pengajar' => ['required', 'string', 'max:255'],
             'jabatan' => ['required', 'string', 'max:255'],
             'golongan_id' => ['required', 'exists:golongan,id'],
-            'honor' => ['required', 'string'],
+            'honor' => ['required', 'numeric'],
             'alamat' => ['required', 'string', 'max:255'],
         ]);
 

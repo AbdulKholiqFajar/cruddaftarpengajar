@@ -20,7 +20,8 @@ class CreatePelatihanTable extends Migration
             $table->time('end_time'); // Kolom waktu
             $table->foreignId('pengajar_id')->constrained('pengajar')->onDelete('cascade');
             $table->foreignId('mata_pelatihan_id')->constrained('mata_pelatihans')->onDelete('cascade');
-            $table->foreignId('golongan_id')->constrained('golongan')->onDelete('cascade');
+            // $table->foreignId('golongan_id')->constrained('golongan')->onDelete('cascade');
+            $table->string('golongan_id')->change();
             $table->decimal('jml_jp', 10, 2); // Kolom jml_jp
             $table->decimal('tarif_jp', 10, 2); // Kolom tarif_jp
             $table->decimal('jumlah_bruto', 15, 2); // Kolom jumlah_bruto

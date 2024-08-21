@@ -27,7 +27,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pengajar', \App\Http\Controllers\PengajarController::class);
     Route::resource('mata_pelatihans', \App\Http\Controllers\MataPelatihanController::class);
     Route::resource('pelatihan', \App\Http\Controllers\PelatihanController::class);
-    // Route::resource('sk', \App\Http\Controllers\SkController::class);
 
     Route::get('/export-excel-pengajar', \App\Http\Controllers\ExportExcelPengajarController::class)->name('export.excel');
     Route::get('/export-pdf-pengajar', \App\Http\Controllers\ExportPdfPengajarController::class)->name('export.pdf.pengajar');
@@ -37,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-excel-pelatihan', \App\Http\Controllers\ExportExcelPelatihanController::class)->name('export.excel');
     Route::get('/pengajar/{id}/golongan', [\App\Http\Controllers\PengajarController::class, 'getGolongan'])->name('pengajar.golongan');
     Route::get('/mata_pelatihan/{id}', [\App\Http\Controllers\MataPelatihanController::class, 'getJumlahJP']);
+    // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     
     Route::put('/pelatihan/{id}/status', [\App\Http\Controllers\PelatihanController::class, 'updateStatus'])->name('pelatihan.updateStatus');
 });

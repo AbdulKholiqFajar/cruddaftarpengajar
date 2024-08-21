@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Input Data
+    Tambah Data Pelatihan
 @endsection
 
 @section('content')
