@@ -27,7 +27,8 @@
                         </div>
                         <div class="form-group">
                             <label for="jml_jp">Jumlah JP</label>
-                            <input type="number" id="jml_jp" name="jml_jp" class="form-control @error('jml_jp') is-invalid @enderror" value="{{ old('jml_jp', $mata_pelatihan->jml_jp) }}" required>
+                            <input type="number" id="jml_jp" name="jml_jp" class="form-control @error('jml_jp') is-invalid @enderror" 
+                                   value="{{ old('jml_jp', number_format($mata_pelatihan->jml_jp, 0, '.', '')) }}" required>
                             @error('jml_jp')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

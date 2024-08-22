@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         @page {
-            size: A4 landscape;
+            size: F4 landscape;
             margin: 20mm;
         }
         body {
@@ -56,15 +56,17 @@
         }
         .col-no {
             width: 5%;
+            vertical-align: middle;
+            text-align: center; /* Center the text in the NO column */
         }
         .col-tanggal {
             width: 15%;
         }
         .col-waktu {
-            width: 15%;
+            width: 20%;
         }
         .col-nama {
-            width: 15%;
+            width: 30%;
         }
         .col-uraian {
             width: 20%;
@@ -95,13 +97,16 @@
             vertical-align: middle;
             text-align: center;
         }
+        .merge-cell {
+            border: 1px solid #ffffff; /* Hide border for merged cells */
+        }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <div class="box">
             <div class="box-header">
-                <h6>{{ $title }}</h4>
+                <h6>{{ $title }}</h6>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-striped">
@@ -120,7 +125,7 @@
                     </thead>
                     <tbody>
                         @php
-                            $no = 0;
+                            $no = 1;
                             $totalJmlJp = 0;
                             $totalTarifJp = 0;
                             $totalJumlahBruto = 0;
@@ -129,22 +134,14 @@
                             @php
                                 $pelatihans = $pelatihans->sortBy('start_time');
                                 $tanggalFormatted = \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y');
+                                $first = true;
                             @endphp
                             @foreach ($pelatihans as $item)
-                                @php
-                                    $no++;
-                                    $totalJmlJp += floatval($item->jml_jp);
-                                    $totalTarifJp += floatval($item->tarif_jp);
-                                    $totalJumlahBruto += floatval($item->jumlah_bruto);
-                                @endphp
                                 <tr>
-                                    @if ($loop->first)
-                                        <td>{{ $no }}</td>
-                                        <td rowspan="{{ count($pelatihans) }}" class="no-date">
-                                            {{ $tanggalFormatted }}
-                                        </td>
-                                    @else
-                                        <td>{{ $no }}</td>
+                                    @if ($first)
+                                        <td class="col-no merge-cell" rowspan="{{ count($pelatihans) }}">{{ $no }}</td>
+                                        <td class="col-tanggal merge-cell" rowspan="{{ count($pelatihans) }}">{{ $tanggalFormatted }}</td>
+                                        @php $first = false; @endphp
                                     @endif
                                     <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
                                     <td>{{ $item->pengajar?->nama_pengajar }}</td>
@@ -154,6 +151,12 @@
                                     <td>{{ rtrim(number_format(floatval($item->tarif_jp), 0, '', ','), ',') }}</td>
                                     <td>{{ rtrim(number_format(floatval($item->jumlah_bruto), 0, '', ','), ',') }}</td>
                                 </tr>
+                                @php
+                                    $totalJmlJp += floatval($item->jml_jp);
+                                    $totalTarifJp += floatval($item->tarif_jp);
+                                    $totalJumlahBruto += floatval($item->jumlah_bruto);
+                                    if ($loop->last) $no++;
+                                @endphp
                             @endforeach
                         @endforeach
                     </tbody>

@@ -193,7 +193,7 @@
                         url: '/mata_pelatihan/' + mataPelatihanId,
                         method: 'GET',
                         success: function (response) {
-                            $('#jml_jp').val(response.jml_jp);
+                            $('#jml_jp').val(parseInt(response.jml_jp));
                             calculateJumlahBruto(); // Update jumlah bruto setelah mengubah jumlah JP
                         },
                         error: function () {

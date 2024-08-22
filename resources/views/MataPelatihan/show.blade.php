@@ -28,7 +28,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="jml_jp">Jumlah JP:</label>
-                                <p id="jml_jp" class="form-control-plaintext">{{ $mata_pelatihan->jml_jp }}</p>
+                                <p id="jml_jp" class="form-control-plaintext">{{ number_format($mata_pelatihan->jml_jp, 0) }}</p>
                             </div>
                         </div>
                     </div>

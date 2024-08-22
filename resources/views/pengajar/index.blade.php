@@ -86,7 +86,7 @@
                 }
             });
 
-            $('.delete').click(function (e) {
+            $('#pengajarTable').on('click', '.delete', function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 Swal.fire({

@@ -53,6 +53,12 @@ class PelatihanController extends Controller
         $pengajar = Pengajar::all();
         $mataPelatihan = MataPelatihan::all();
         $masterPelatihan = Pelatihan::get()->groupBy('title')->keys()->toArray();
+
+        $mataPelatihan = $mataPelatihan->map(function ($item) {
+            $item->jml_jp = number_format($item->jml_jp, 0, '.', '');
+            return $item;
+        });
+        
         return view('pelatihan.create', compact('golongan','pengajar','mataPelatihan','masterPelatihan'));
     }
 

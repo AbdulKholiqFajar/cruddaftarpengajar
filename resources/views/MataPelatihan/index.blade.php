@@ -33,7 +33,7 @@
                                 @forelse($mata_pelatihans as $item)
                                     <tr>
                                         <td>{{ $item->mata_pelatihan }}</td>
-                                        <td>{{ $item->jml_jp }}</td>
+                                        <td>{{ number_format($item->jml_jp) }}</td>
                                         <td>
                                             <a href="{{ route('mata_pelatihans.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                             @can('mata-pelatihan-edit')
@@ -79,7 +79,7 @@
                 }
             });
 
-            $('.delete').click(function (e) {
+            $('#mataPelatihanTable').on('click', '.delete', function (e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 Swal.fire({
