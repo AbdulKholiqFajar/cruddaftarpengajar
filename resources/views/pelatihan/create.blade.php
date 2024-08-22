@@ -18,19 +18,19 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="title" class="d-flex">
-                                        Judul
+                                        Pelatihan
                                         <div class="form-check ml-3">
                                             <input class="form-check-input" type="checkbox" id="is_new" name="is_new" value="1">
-                                            <label class="form-check-label">Tambah Judul Baru</label>
+                                            <label class="form-check-label">Tambah Pelatihan Baru</label>
                                         </div>
                                     </label>
                                     <select name="title_select" id="title" class="form-control is_select select2">
-                                        <option value="">Pilih Judul</option>
+                                        <option value="">Pilih Pelatihan</option>
                                         @foreach($masterPelatihan as $item)
                                             <option value="{{ $item }}" {{ @$data['title'] == $item ? 'selected' : '' }}>{{ strtoupper($item) }}</option>
                                         @endforeach
                                     </select>
-                                    <input type="text" name="title_input" class="form-control is_input hidden @error('title') is-invalid @enderror" id="title" placeholder="Judul" value="{{ old('title') }}">
+                                    <input type="text" name="title_input" class="form-control is_input hidden @error('title') is-invalid @enderror" id="title" placeholder="Pelatihan" value="{{ old('title') }}">
                                     @error('title')
                                         <div class="invalid-feedback">
                                             {{ $message }}

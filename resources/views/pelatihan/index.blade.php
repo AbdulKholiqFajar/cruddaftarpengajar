@@ -43,9 +43,9 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <label for="title">Judul <span style="color: red">*</span></label>
+                                            <label for="title">Pelatihan <span style="color: red">*</span></label>
                                             <select name="title" id="title" class="form-control select2">
-                                                <option value="">Pilih Judul</option>
+                                                <option value="">Pilih Pelatihan</option>
                                                 @foreach($masterPelatihan as $item)
                                                     <option value="{{ $item }}" {{ @$data['title'] == $item ? 'selected' : '' }}>{{ strtoupper($item) }}</option>
                                                 @endforeach
@@ -143,9 +143,9 @@
                                                                     Setting
                                                                 </button>
                                                                 <div class="dropdown-menu">
-                                                                    <a href="{{ route('pelatihan.show', $item->id) }}" class="dropdown-item">
+                                                                    {{-- <a href="{{ route('pelatihan.show', $item->id) }}" class="dropdown-item">
                                                                         <i class="fa fa-eye"></i> Detail
-                                                                    </a>
+                                                                    </a> --}}
                                                                     <a href="{{ route('pelatihan.edit', $item->id) }}" class="dropdown-item">
                                                                         <i class="fa fa-edit"></i> Edit
                                                                     </a>
