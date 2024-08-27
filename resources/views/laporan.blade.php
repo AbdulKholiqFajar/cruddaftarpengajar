@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan PDF</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         @page {
-            size: A3 landscape;
+            size: F4 landscape;
             margin: 20mm;
         }
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
         .wrapper {
             width: 100%;
@@ -42,10 +41,11 @@
         .table th, .table td {
             padding: 12px;
             text-align: center;
-            border: 1px solid #dee2e6;
+            border: 1px solid #000000; /* Black border for all cells */
+            background-color: #ffffff; /* White background for all cells */
+            color: #000000; /* Black text for all cells */
         }
         .table thead th {
-            background-color: #f8f9fa;
             font-weight: bold;
         }
         .table tbody td {
@@ -56,15 +56,17 @@
         }
         .col-no {
             width: 5%;
+            vertical-align: middle;
+            text-align: center; /* Center the text in the NO column */
         }
         .col-tanggal {
             width: 15%;
         }
         .col-waktu {
-            width: 15%;
+            width: 20%;
         }
         .col-nama {
-            width: 15%;
+            width: 30%;
         }
         .col-uraian {
             width: 20%;
@@ -90,13 +92,21 @@
             padding: 10px 0;
             font-size: 14px;
         }
+        .no-date {
+            background-color: #ffffff; /* White background for date cells */
+            vertical-align: middle;
+            text-align: center;
+        }
+        .merge-cell {
+            border: 1px solid #ffffff; /* Hide border for merged cells */
+        }
     </style>
 </head>
 <body>
     <div class="wrapper">
         <div class="box">
             <div class="box-header">
-                <h5>{{ $title }}</h5>
+                <h6>{{ $title }}</h6>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-striped">
@@ -115,7 +125,7 @@
                     </thead>
                     <tbody>
                         @php
-                            $no = 0;
+                            $no = 1;
                             $totalJmlJp = 0;
                             $totalTarifJp = 0;
                             $totalJumlahBruto = 0;
@@ -124,22 +134,14 @@
                             @php
                                 $pelatihans = $pelatihans->sortBy('start_time');
                                 $tanggalFormatted = \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y');
+                                $first = true;
                             @endphp
                             @foreach ($pelatihans as $item)
-                                @php
-                                    $no++;
-                                    $totalJmlJp += floatval($item->jml_jp);
-                                    $totalTarifJp += floatval($item->tarif_jp);
-                                    $totalJumlahBruto += floatval($item->jumlah_bruto);
-                                @endphp
                                 <tr>
-                                    @if ($loop->first)
-                                        <td>{{ $no }}</td>
-                                        <td rowspan="{{ count($pelatihans) }}" class="no-date" style="text-align: center; vertical-align: middle;">
-                                            {{ $tanggalFormatted }}
-                                        </td>
-                                    @else
-                                        <td>{{ $no }}</td>
+                                    @if ($first)
+                                        <td class="col-no merge-cell" rowspan="{{ count($pelatihans) }}">{{ $no }}</td>
+                                        <td class="col-tanggal merge-cell" rowspan="{{ count($pelatihans) }}">{{ $tanggalFormatted }}</td>
+                                        @php $first = false; @endphp
                                     @endif
                                     <td>{{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
                                     <td>{{ $item->pengajar?->nama_pengajar }}</td>
@@ -149,6 +151,12 @@
                                     <td>{{ rtrim(number_format(floatval($item->tarif_jp), 0, '', ','), ',') }}</td>
                                     <td>{{ rtrim(number_format(floatval($item->jumlah_bruto), 0, '', ','), ',') }}</td>
                                 </tr>
+                                @php
+                                    $totalJmlJp += floatval($item->jml_jp);
+                                    $totalTarifJp += floatval($item->tarif_jp);
+                                    $totalJumlahBruto += floatval($item->jumlah_bruto);
+                                    if ($loop->last) $no++;
+                                @endphp
                             @endforeach
                         @endforeach
                     </tbody>
@@ -164,8 +172,8 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
+    {{-- <footer class="footer">
         <span class="blockquote-footer">Printed by BAPEKOM IV BANDUNG</span>
-    </footer>
+    </footer> --}}
 </body>
 </html>

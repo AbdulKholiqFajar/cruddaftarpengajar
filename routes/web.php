@@ -31,11 +31,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-excel-pengajar', \App\Http\Controllers\ExportExcelPengajarController::class)->name('export.excel');
     Route::get('/export-pdf-pengajar', \App\Http\Controllers\ExportPdfPengajarController::class)->name('export.pdf.pengajar');
     Route::get('/export-pdf-mata_pelatihans', \App\Http\Controllers\ExportPdfMataPelatihanController::class)->name('export.pdf.mata_pelatihans');
-    Route::get('/export-pdf-pelatihan', \App\Http\Controllers\ExportPdfPelatihanController::class)->name('export.pdf');
     Route::get('/export-pdf-detail-pelatihan', [\App\Http\Controllers\PelatihanController::class, 'exportPdf'])->name('export.surat.pdf');
     Route::get('/export-excel-pelatihan', \App\Http\Controllers\ExportExcelPelatihanController::class)->name('export.excel');
-    Route::get('/pengajar/{id}/golongan', [\App\Http\Controllers\PengajarController::class, 'getGolongan'])->name('pengajar.golongan');
     Route::get('/mata_pelatihan/{id}', [\App\Http\Controllers\MataPelatihanController::class, 'getJumlahJP']);
+    Route::get('/pengajar/{id}/details', [\App\Http\Controllers\PengajarController::class, 'getDetails'])->name('pengajar.details');
+    Route::get('/laporan', [App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+
     // Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     // Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     

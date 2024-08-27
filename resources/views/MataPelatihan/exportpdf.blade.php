@@ -9,48 +9,42 @@
 </head>
 <body>
     <div class="wrapper">
-    <div class="box">
-        <div class="box-header">
-           <center> MATA PELATIHAN </center>
-           <br>
-        </div>
-        <div class="box-body">
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Kode Mata Pelatihan</th>
-                        <th>Mata Pelatihan</th>
-                        <th>Jumlah JP</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $no=0;
-
-                    @endphp
-                    @foreach ($mata_pelatihans as $item)
-                    @php
-                        $no++;
-
-                    @endphp
-                    <tr>
-                        <td>{{ $no }}</th>
-                            <td>{{ $item->kode_mapel }}</td>
+        <div class="box">
+            <div class="box-header">
+               <center> MATA PELATIHAN </center>
+               <br>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Mata Pelatihan</th>
+                            <th>Jumlah JP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $no = 0;
+                        @endphp
+                        @foreach ($mata_pelatihans as $item)
+                        @php
+                            $no++;
+                            $formattedJmlJp = number_format($item->jml_jp, 0, ',', '.'); // Format Jumlah JP
+                        @endphp
+                        <tr>
+                            <td>{{ $no }}</td>
                             <td>{{ $item->mata_pelatihan }}</td>
-                            <td>{{ $item->jml_jp }}</td>    
-                    </tr>
-                    @endforeach
-
-                </tbody>
-
-            </table>
+                            <td>{{ $formattedJmlJp }}</td> <!-- Display formatted Jumlah JP -->
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-   </div>
-     <footer class="fixed-bottom">
-         <span class="blockquote-footer"> Printed by BAPEKOM IV BANDUNG </span>
-     </footer>
+    <footer class="fixed-bottom">
+        <span class="blockquote-footer"> Printed by BAPEKOM IV BANDUNG </span>
+    </footer>
 </body>
 </html>

@@ -16,7 +16,7 @@
                     <h3 class="card-title mb-3">
                         @can('mata-pelatihan-create')
                             <a href="{{ route('mata_pelatihans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
-                            {{-- <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a> --}}
+                            <a href="{{ route('export.pdf.mata_pelatihans') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
                         @endcan
                     </h3>
                    

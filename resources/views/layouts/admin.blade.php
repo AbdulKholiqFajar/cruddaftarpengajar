@@ -110,6 +110,7 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    @can('dashboard')
                     <li class="nav-item">
                         <a href="{{ route('dashboard') }}"
                         class="nav-link {{ (request()->is('/*')) ? 'active' : '' }}">
@@ -119,6 +120,7 @@
                             </p>
                         </a>
                     </li>
+                    @endcan
                     @can('user-management')
                         <li class="nav-item  {{ (request()->is('user_management*')) ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ (request()->is('user_management*')) ? 'active' : '' }}">

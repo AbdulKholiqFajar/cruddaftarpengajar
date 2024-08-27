@@ -6,6 +6,7 @@
 
 @section('content')
 <div class="row">
+    @can('dashboard')
     <div class="col-lg-4 col-6">
         <div class="small-box bg-info">
             <div class="inner">
@@ -42,5 +43,6 @@
             <a href="{{ route('pelatihan.index') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+    @endcan
 </div>
 @endsection

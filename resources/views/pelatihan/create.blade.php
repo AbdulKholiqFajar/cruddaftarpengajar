@@ -127,7 +127,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            @can('pelatihan-not-penyelengara')
+                            @can('tarifjp-not-penyelengara')
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="tarif_jp">TARIF JP</label>
@@ -169,23 +169,29 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            $('#nama_pengajar').on('change', function () {
-                var pengajarId = $(this).val();
-                if (pengajarId) {
-                    $.ajax({
-                        url: '/pengajar/' + pengajarId + '/golongan',
-                        method: 'GET',
-                        success: function (response) {
-                            $('#golongan_id').val(response.golongan);
-                        },
-                        error: function () {
-                            $('#golongan_id').val('');
-                        }
-                    });
-                } else {
+                $('#nama_pengajar').on('change', function () {
+                    var pengajarId = $(this).val();
+                    if (pengajarId) {
+            $.ajax({
+                url: '/pengajar/' + pengajarId + '/details',
+                method: 'GET',
+                success: function (response) {
+                    $('#golongan_id').val(response.golongan);
+                    // Menghapus desimal dari tarif_jp jika ada
+                    let tarifJp = parseFloat(response.tarif_jp).toFixed(0);
+                    $('#tarif_jp').val(tarifJp);
+                    calculateJumlahBruto(); // Update jumlah bruto setelah mengubah tarif JP
+                },
+                error: function () {
                     $('#golongan_id').val('');
+                    $('#tarif_jp').val('');
                 }
             });
+        } else {
+            $('#golongan_id').val('');
+            $('#tarif_jp').val('');
+        }
+    });
             $('#mapel').on('change', function () {
                 var mataPelatihanId = $(this).val();
                 if (mataPelatihanId) {

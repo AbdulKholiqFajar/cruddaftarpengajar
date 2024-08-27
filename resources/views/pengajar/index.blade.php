@@ -17,8 +17,7 @@
                         @can('pengajar-create')
                             <a href="{{ route('pengajar.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data</a>
                         @endcan
-                            {{-- <a href="{{ route('export.pdf.pengajar') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a> --}}
-                            <!-- <a href="{{ route('export.excel') }}" class="btn btn-success"><i class="fa fa-file-excel"></i> Export Excel</a> -->
+                            <a href="{{ route('export.pdf.pengajar') }}" class="btn btn-danger"><i class="fa fa-file-pdf"></i> Export PDF</a>
                     </h3>
 
                     <div class="table-responsive">
@@ -29,7 +28,7 @@
                                     <th>Nama Pengajar</th>
                                     <th>Jabatan</th>
                                     <th>Golongan</th>
-                                    <th>Tarif JP</th>
+                                    <th>Honor</th>
                                     <th>Alamat</th>
                                     <th>Aksi</th>
                                 </tr>

@@ -9,6 +9,7 @@ use App\Models\Golongan;
 use App\Models\Pengajar;
 use App\Models\MataPelatihan;
 use Barryvdh\DomPDF\Facade as pdf;
+use TCPDF;
 
 class PelatihanController extends Controller
 {
@@ -38,7 +39,6 @@ class PelatihanController extends Controller
             $pelatihanArr = $query->where($where)->get();
             $grouppelatihan = $pelatihanArr->groupBy('title');
         }
-        // dd($pelatihan);
         return view('pelatihan.index', compact('pelatihan','masterPelatihan','data','grouppelatihan','pelatihanArr'));
     }
 
@@ -202,18 +202,44 @@ class PelatihanController extends Controller
         }
     }
 
-    public function exportPdf(Request $request){
-
+    public function exportPdf(Request $request)
+    {
+        // Ambil data pelatihan berdasarkan title
         $pelatihanArr = Pelatihan::where('title', $request->title)->get();
         $groupPelatihan = $pelatihanArr->groupBy(function($date) {
-        return \Carbon\Carbon::parse($date->tanggal)->format('Y-m-d'); // Format tanggal sesuai kebutuhan
-    });
+            return \Carbon\Carbon::parse($date->tanggal)->format('Y-m-d');
+        });
 
-        $pdf = pdf::loadview('pelatihan.exportDetailPdf', [
-        'groupPelatihan' => $groupPelatihan,
-        'title' =>  $request->title,
-    ])->setPaper('A3', 'landscape');
-    
-    return $pdf->stream();
+        // Membuat instance TCPDF
+        $pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+
+        // Set metadata
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetAuthor('Your Name');
+        $pdf->SetTitle('Laporan PDF');
+        $pdf->SetSubject('Laporan PDF');
+        $pdf->SetKeywords('TCPDF, PDF, Laravel');
+
+        // Set margins
+        $pdf->SetMargins(10, 10, 10);
+        $pdf->SetHeaderMargin(15);
+        $pdf->SetFooterMargin(15);
+
+        // Add a page
+        $pdf->AddPage();
+
+        // Set font
+        $pdf->SetFont('helvetica', '', 10);
+
+        // Output HTML content
+        $html = view('pelatihan.exportDetailPdf', [
+            'groupPelatihan' => $groupPelatihan,
+            'title' => $request->title,
+        ])->render();
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Stream the PDF back to browser
+        return $pdf->Output('Pelatihan_Report.pdf', 'I'); // I untuk inline preview di browser, D untuk unduh
     }
 }

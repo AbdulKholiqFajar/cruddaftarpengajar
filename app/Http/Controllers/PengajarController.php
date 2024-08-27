@@ -133,14 +133,26 @@ class PengajarController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function getGolongan($id)
+    public function getDetails($id)
     {
-        $pengajar = Pengajar::find($id);
+        $pengajar = Pengajar::with('golongan')->find($id);
         if ($pengajar) {
             return response()->json([
-                'golongan' => $pengajar->golongan ? $pengajar->golongan->nama : ''
+                'golongan' => $pengajar->golongan->nama,
+                'tarif_jp' => $pengajar->honor
             ]);
         }
-        return response()->json(['golongan' => ''], 404);
+        return response()->json(null);
     }
+
+    // public function getGolongan($id)
+    // {
+    //     $pengajar = Pengajar::find($id);
+    //     if ($pengajar) {
+    //         return response()->json([
+    //             'golongan' => $pengajar->golongan ? $pengajar->golongan->nama : ''
+    //         ]);
+    //     }
+    //     return response()->json(['golongan' => ''], 404);
+    // }
 }
