@@ -26,13 +26,13 @@
                         </div>
                         <div class="form-group">
                             <label for="jml_jp">Jumlah JP</label>
-                            <input type="number" id="jml_jp" name="jml_jp" class="form-control @error('jml_jp') is-invalid @enderror" value="{{ old('jml_jp') }}" required>
+                            <input type="number" id="jml_jp" name="jml_jp" class="form-control @error('jml_jp') is-invalid @enderror" value="{{ old('jml_jp') }}" step="0.01" min="0" required>
                             @error('jml_jp')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
+                        </div>                        
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Simpan</button>
                             <a href="{{ route('mata_pelatihans.index') }}" class="btn btn-secondary">Batal</a>

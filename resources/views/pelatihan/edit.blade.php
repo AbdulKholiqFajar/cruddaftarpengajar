@@ -97,7 +97,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="golongan_id">Golongan</label>
@@ -118,7 +117,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label for="jml_jp">JUMLAH JP</label>
-                                    <input type="text" id="jml_jp" name="jml_jp" class="form-control @error('jml_jp') is-invalid @enderror" placeholder="Jumlah JP" value="{{ number_format(old('jml_jp', $pelatihan->jml_jp)) }}" {{$isPetugas ? 'readonly' : ''}} required>
+                                    <input type="text" id="jml_jp" name="jml_jp" class="form-control @error('jml_jp') is-invalid @enderror" placeholder="Jumlah JP" value="{{ number_format($pelatihan->jml_jp, 2)}}" {{$isPetugas ? 'readonly' : ''}} required>
                                     @error('jml_jp')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -166,14 +165,25 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
+        // Inisialisasi Select2 untuk nama_pengajar dan mapel
+        $('#nama_pengajar').select2({
+            placeholder: 'Pilih Pengajar',
+            allowClear: true
+        });
+
+        $('#mapel').select2({
+            placeholder: 'Pilih Mata Pelatihan',
+            allowClear: true
+        });
+
         function formatNumberWithoutDecimal(value) {
-            return Math.floor(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parseFloat(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
         function formatInputs() {
-            // Format tarif_jp and jml_jp without decimals
             let tarif_jp = $("#tarif_jp").val().replace(/,/g, '');
             let jml_jp = $("#jml_jp").val().replace(/,/g, '');
 
@@ -200,25 +210,24 @@
             var pengajarId = $(this).val();
             if (pengajarId) {
                 $.ajax({
-                url: '/pengajar/' + pengajarId + '/details',
-                method: 'GET',
-                success: function (response) {
-                    $('#golongan_id').val(response.golongan);
-                    // Menghapus desimal dari tarif_jp jika ada
-                    let tarifJp = parseFloat(response.tarif_jp).toFixed(0);
-                    $('#tarif_jp').val(tarifJp);
-                    calculateJumlahBruto(); // Update jumlah bruto setelah mengubah tarif JP
-                },
-                error: function () {
-                    $('#golongan_id').val('');
-                    $('#tarif_jp').val('');
-                }
-            });
-        } else {
-            $('#golongan_id').val('');
-            $('#tarif_jp').val('');
-        }
-    });
+                    url: '/pengajar/' + pengajarId + '/details',
+                    method: 'GET',
+                    success: function (response) {
+                        $('#golongan_id').val(response.golongan);
+                        let tarifJp = parseFloat(response.tarif_jp).toFixed(0);
+                        $('#tarif_jp').val(tarifJp);
+                        calculateJumlahBruto();
+                    },
+                    error: function () {
+                        $('#golongan_id').val('');
+                        $('#tarif_jp').val('');
+                    }
+                });
+            } else {
+                $('#golongan_id').val('');
+                $('#tarif_jp').val('');
+            }
+        });
 
         $("#mapel").on('change', function () {
             var mataPelatihanId = $(this).val();
@@ -228,7 +237,7 @@
                     method: 'GET',
                     success: function (response) {
                         $('#jml_jp').val(formatNumberWithoutDecimal(response.jml_jp));
-                        calculateJumlahBruto(); // Update jumlah bruto setelah mengubah jumlah JP
+                        calculateJumlahBruto();
                     },
                     error: function () {
                         $('#jml_jp').val('');
@@ -242,7 +251,6 @@
         $("#tarif_jp").on('input', calculateJumlahBruto);
         $("#jml_jp").on('input', calculateJumlahBruto);
 
-        // Format inputs on page load
         formatInputs();
     });
 </script>

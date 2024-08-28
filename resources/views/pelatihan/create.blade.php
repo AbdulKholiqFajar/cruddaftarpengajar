@@ -166,32 +166,49 @@
     </div>
 @endsection
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
+
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
-                $('#nama_pengajar').on('change', function () {
-                    var pengajarId = $(this).val();
-                    if (pengajarId) {
-            $.ajax({
-                url: '/pengajar/' + pengajarId + '/details',
-                method: 'GET',
-                success: function (response) {
-                    $('#golongan_id').val(response.golongan);
-                    // Menghapus desimal dari tarif_jp jika ada
-                    let tarifJp = parseFloat(response.tarif_jp).toFixed(0);
-                    $('#tarif_jp').val(tarifJp);
-                    calculateJumlahBruto(); // Update jumlah bruto setelah mengubah tarif JP
-                },
-                error: function () {
+            // Apply Select2 to nama_pengajar and mapel select elements
+            $('#nama_pengajar').select2({
+                placeholder: 'Pilih Pengajar',
+                allowClear: true
+            });
+            
+            $('#mapel').select2({
+                placeholder: 'Pilih Mata Pelatihan',
+                allowClear: true
+            });
+
+            // Existing JS functionality
+            $('#nama_pengajar').on('change', function () {
+                var pengajarId = $(this).val();
+                if (pengajarId) {
+                    $.ajax({
+                        url: '/pengajar/' + pengajarId + '/details',
+                        method: 'GET',
+                        success: function (response) {
+                            $('#golongan_id').val(response.golongan);
+                            let tarifJp = parseFloat(response.tarif_jp).toFixed(0);
+                            $('#tarif_jp').val(tarifJp);
+                            calculateJumlahBruto();
+                        },
+                        error: function () {
+                            $('#golongan_id').val('');
+                            $('#tarif_jp').val('');
+                        }
+                    });
+                } else {
                     $('#golongan_id').val('');
                     $('#tarif_jp').val('');
                 }
             });
-        } else {
-            $('#golongan_id').val('');
-            $('#tarif_jp').val('');
-        }
-    });
+
             $('#mapel').on('change', function () {
                 var mataPelatihanId = $(this).val();
                 if (mataPelatihanId) {
@@ -199,8 +216,8 @@
                         url: '/mata_pelatihan/' + mataPelatihanId,
                         method: 'GET',
                         success: function (response) {
-                            $('#jml_jp').val(parseInt(response.jml_jp));
-                            calculateJumlahBruto(); // Update jumlah bruto setelah mengubah jumlah JP
+                            $('#jml_jp').val(parseFloat(response.jml_jp));
+                            calculateJumlahBruto();
                         },
                         error: function () {
                             $('#jml_jp').val('');
@@ -215,15 +232,15 @@
                 let tarif_jp = $("#tarif_jp").val().replace(/,/g, '');
                 let jml_jp = $("#jml_jp").val();
                 tarif_jp = tarif_jp ? parseInt(tarif_jp) : 0;
-                jml_jp = jml_jp ? parseInt(jml_jp) : 0;
+                jml_jp = jml_jp ? parseFloat(jml_jp) : 0;
                 
-                let jml_bruto = parseInt(jml_jp) * parseInt(tarif_jp);
+                let jml_bruto = parseFloat(jml_jp) * parseInt(tarif_jp);
                 $("#jumlah_bruto").val(parseInt(jml_bruto, 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
             }
 
             $("#tarif_jp").on('change', calculateJumlahBruto);
             $("#jml_jp").on('input', calculateJumlahBruto);
-        
+
             $("#is_new").on('change', function(){
                 if(this.checked){
                     $(".is_select").addClass('hidden');

@@ -113,7 +113,7 @@
                                                 <td>{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
                                                 <td>{{ $item->pengajar?->nama_pengajar }}</td>
                                                 <td>{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
-                                                <td>{{ number_format($item->jml_jp) }}</td>
+                                                <td>{{ fmod($item->jml_jp, 1) !== 0.00 ? number_format($item->jml_jp, 2, ',', '.') : number_format($item->jml_jp, 0, ',', '.') }}</td>
                                                 <td>{{ number_format($item->tarif_jp) }}</td>
                                                 <td>{{ number_format($item->jumlah_bruto) }}</td>
                                                 <td>

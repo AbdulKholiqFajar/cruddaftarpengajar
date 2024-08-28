@@ -33,7 +33,7 @@
                                 @forelse($mata_pelatihans as $item)
                                     <tr>
                                         <td>{{ $item->mata_pelatihan }}</td>
-                                        <td>{{ number_format($item->jml_jp) }}</td>
+                                        <td>{{ fmod($item->jml_jp, 1) !== 0.00 ? number_format($item->jml_jp, 2, ',', '.') : number_format($item->jml_jp, 0, ',', '.') }}</td>
                                         <td>
                                             <a href="{{ route('mata_pelatihans.show', $item->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                             @can('mata-pelatihan-edit')

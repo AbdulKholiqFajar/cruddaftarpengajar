@@ -111,7 +111,7 @@
                     @endphp
                     <tr>
                         @if ($isNewDate)
-                            <td class="col-no" rowspan="{{ count($pelatihans) }}">{{ $no }}</td>
+                            <td class="col-no" rowspan="{{ count($pelatihans) }}" >{{ $no }}</td>
                             <td class="col-tanggal no-date" rowspan="{{ count($pelatihans) }}">{{ $tanggalFormatted }}</td>
                             @php
                                 $previousDate = $tanggal;
@@ -122,7 +122,7 @@
                         <td class="col-nama">{{ $item->pengajar?->nama_pengajar }}</td>
                         <td class="col-uraian">{{ $item->mata_pelatihan?->mata_pelatihan }}</td>
                         <td class="col-gol">{{ $item->golongan ? $item->golongan->nama : 'N/A' }}</td>
-                        <td class="col-jml-jp">{{ number_format(floatval($item->jml_jp), 0, '', ',') }}</td>
+                        <td class="col-jml-jp">{{ fmod($item->jml_jp, 1) !== 0.00 ? number_format($item->jml_jp, 2, ',', '.') : number_format($item->jml_jp, 0, ',', '.') }}</td>
                         <td class="col-tarif-jp">{{ number_format(floatval($item->tarif_jp), 0, '', ',') }}</td>
                         <td class="col-jumlah-bruto">{{ number_format(floatval($item->jumlah_bruto), 0, '', ',') }}</td>
                     </tr>
